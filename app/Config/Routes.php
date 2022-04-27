@@ -11,6 +11,8 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
+$addView = fn ($path, $viewName, ...$args) => $routes->get($path, fn () => view($viewName, ...$args));
+
 /*
  * --------------------------------------------------------------------
  * Router Setup
@@ -31,7 +33,13 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$addView('/', 'index');
+$addView('/vision-mission', 'vision_mission');
+$routes->get('/course', 'Home::course');
+$routes->get('/facility', 'Home::facility');
+$addView('/staff', 'staff');
+$addView('/contact', 'contact');
+$addView('/portfolio', 'portfolio');
 
 /*
  * --------------------------------------------------------------------
