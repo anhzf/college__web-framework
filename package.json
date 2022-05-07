@@ -1,0 +1,27 @@
+{
+  "name": "web-framework",
+  "version": "1.0.0",
+  "description": "## What is CodeIgniter?",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:tw": "tailwindcss -o ./public/style.css --watch --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anhzf/web-framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anhzf/web-framework/issues"
+  },
+  "homepage": "https://github.com/anhzf/web-framework#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.0.24"
+  }
+}
