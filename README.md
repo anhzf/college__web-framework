@@ -14,6 +14,21 @@ php spark migrate && php spark db:seed DevSeeder
 php spark serve
 ```
 
+## Screenshots
+![Home](./docs/screenshot_home.png)
+Home
+
+![Home](./docs/screenshot_about.png)
+About
+
+![Home](./docs/screenshot_products.png)
+Products
+
+![Home](./docs/screenshot_product.png)
+Product
+
+
+
 ## Disclaimer
 Projek ini hanya untuk UTS.
 
