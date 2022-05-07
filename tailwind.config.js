@@ -1,9 +1,15 @@
 module.exports = {
   content: [
-    './app/views/**/*.php',
+    './app/Views/**/*.php',
+    './app/Controllers/**/*.php',
+    './app/Libraries/**/TableView.php',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: '#76b900',
+      },
+    },
   },
   plugins: [],
 }

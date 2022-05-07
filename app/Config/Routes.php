@@ -11,6 +11,8 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
+$addView = fn ($path, $viewName, ...$args) => $routes->get($path, fn () => view("pages/$viewName", ...$args));
+
 /*
  * --------------------------------------------------------------------
  * Router Setup
@@ -32,6 +34,13 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$addView('/about', 'about');
+$addView('/contact', 'contact');
+$routes->get('/products', 'Products::index');
+$routes->get('/products/(:segment)', 'Products::show/$1');
+$routes->get('/drivers', 'Drivers::index');
+$routes->get('/technologies', 'Technologies::index');
+$routes->get('/tes', fn () => json_encode(['message' => 'Hello World!']));
 
 /*
  * --------------------------------------------------------------------
