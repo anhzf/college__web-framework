@@ -14,19 +14,19 @@
         <v-list-item
           prepend-icon="mdi-circle"
           title="Dasbor"
-          to="/"
+          :to="{name: 'Home'}"
         />
         <v-list-item
           prepend-icon="mdi-circle"
-          title="Laboratorium"
+          title="Ruangan"
           subtitle="Jadwal dan Peminjaman"
-          to="/lab/reservation"
+          :to="{name: 'RoomReservation'}"
         />
         <v-list-item
           prepend-icon="mdi-circle"
           title="Fasilitas"
           subtitle="Peminjaman"
-          to="/facility/reservation"
+          :to="{name: 'FacilityReservation'}"
         />
 
         <v-list-subheader>Admin</v-list-subheader>
@@ -34,30 +34,30 @@
         <v-list-item
           prepend-icon="mdi-circle"
           title="Verifikasi Reservasi"
-          to="/reservation"
+          :to="{name: 'ReservationVerification'}"
         />
         <v-list-item
           prepend-icon="mdi-circle"
           title="Member"
           subtitle="Kelola Member"
-          to="/member"
+          :to="{name: 'MemberManagement'}"
         />
         <v-list-item
           prepend-icon="mdi-circle"
           title="Fasilitas"
           subtitle="Kelola Fasilitas"
-          to="/facility"
+          :to="{name: 'FacilityManagement'}"
         />
         <v-list-item
           prepend-icon="mdi-circle"
-          title="Laboratorium"
-          subtitle="Kelola Laboratorium"
-          to="/lab"
+          title="Ruangan"
+          subtitle="Kelola Ruangan"
+          :to="{name: 'RoomManagement'}"
         />
         <v-list-item
           prepend-icon="mdi-circle"
           title="Pengaturan"
-          to="/settings"
+          :to="{name: 'Settings'}"
         />
         <v-spacer />
       </v-list>
@@ -66,7 +66,7 @@
         <div class="pa-2">
           <v-btn
             prepend-icon="mdi-circle"
-            to="/login"
+            :to="{name: 'SignIn'}"
             block
             color="primary"
           >

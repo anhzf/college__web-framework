@@ -2,11 +2,14 @@
   <v-container fluid>
     <v-row justify="space-between">
       <v-col>
-        <h1>Jadwal Laboratorium</h1>
+        <h1>Jadwal Ruangan</h1>
       </v-col>
 
       <v-col cols="auto">
-        <v-btn prepend-icon="mdi-plus">
+        <v-btn
+          :to="{name: 'RoomReservation_Create'}"
+          prepend-icon="mdi-plus"
+        >
           Reservasi
         </v-btn>
       </v-col>
@@ -19,9 +22,9 @@
           column
         >
           <query-chip
-            :label="v => `Lab: ${v || 'semua'}`"
+            :label="v => `Ruangan: ${v || 'semua'}`"
             hint="Saring hasil berdasarkan"
-            input-label="Nama Laboratorium"
+            input-label="Nama Ruangan"
             sortable
           />
           <query-chip
@@ -61,7 +64,7 @@
         >
           <thead>
             <tr>
-              <th>Nama Lab</th>
+              <th>Nama Ruangan</th>
               <th>Deskripsi Kegiatan</th>
               <th>Penanggung Jawab</th>
               <th>Waktu dan Tanggal</th>
@@ -69,19 +72,19 @@
           </thead>
           <tbody>
             <tr
-              v-for="lab in labList"
-              :key="lab.id"
+              v-for="room in roomList"
+              :key="room.id"
             >
-              <td>{{ lab.labName }}</td>
-              <td>{{ lab.eventDescription }}</td>
-              <td>{{ lab.responsible }}</td>
-              <td class="lab-reservation-datetime">
-                <span>{{ lab.reservedDate.toLocaleString() }}</span>
+              <td>{{ room.roomName }}</td>
+              <td>{{ room.eventDescription }}</td>
+              <td>{{ room.responsible }}</td>
+              <td class="room-reservation-datetime">
+                <span>{{ room.reservedDate.toLocaleString() }}</span>
                 <v-chip density="compact">
-                  {{ lab.reservedTime }} jam
+                  {{ room.reservedTime }} jam
                 </v-chip>
                 <v-chip
-                  v-if="isOnProgress(lab)"
+                  v-if="isOnProgress(room)"
                   color="warning"
                   density="compact"
                 >
@@ -101,26 +104,26 @@ import { Temporal } from '@js-temporal/polyfill';
 import { nanoid } from 'nanoid';
 import QueryChip from '../components/QueryChip.vue';
 
-interface LabReservation {
+interface RoomReservation {
   id: string;
-  labName: string;
+  roomName: string;
   eventDescription: string;
   responsible: string;
   reservedDate: Date;
   reservedTime: number;
 }
 
-const isOnProgress = (reservation: LabReservation) => {
+const isOnProgress = (reservation: RoomReservation) => {
   const now = Temporal.Now.instant();
   const start = reservation.reservedDate.toTemporalInstant();
   const end = start.add({ hours: reservation.reservedTime });
   return Temporal.Instant.compare(now, start) >= 0 && Temporal.Instant.compare(now, end) <= 0;
 };
 
-const labList: LabReservation[] = [
+const roomList: RoomReservation[] = [
   {
     id: nanoid(),
-    labName: 'Software Engineering',
+    roomName: 'Software Engineering',
     eventDescription: 'Kuliah Praktikum',
     responsible: 'Rosihan Ari S.Pd',
     reservedDate: new Date('2022-01-01T09:00:00'),
@@ -128,7 +131,7 @@ const labList: LabReservation[] = [
   },
   {
     id: nanoid(),
-    labName: 'Network Admin',
+    roomName: 'Network Admin',
     eventDescription: 'Kuliah Praktikum',
     responsible: 'Puspanda Hatta S.Pd',
     reservedDate: new Date('2022-05-01T09:00:00'),
@@ -136,24 +139,17 @@ const labList: LabReservation[] = [
   },
   {
     id: nanoid(),
-    labName: 'Multimedia',
+    roomName: 'Multimedia',
     eventDescription: 'Workshop HMP Mikroptik',
     responsible: 'Krisna Murti',
     reservedDate: new Date('2022-06-18T20:00:00'),
     reservedTime: 6,
   },
 ];
-// const labList = Array.from(Array(20), () => ({
-//   id: nanoid(),
-//   labName: 'Software Engineering',
-//   eventDescription: 'Kuliah Praktikum',
-//   responsible: 'Rosihan Ari S.Pd',
-//   time: [new Date('2022-01-01T09:00:00'), new Date('2022-01-01T12:00:00')],
-// }));
 </script>
 
 <style lang="sass">
-.lab-reservation-datetime
+.room-reservation-datetime
   display: flex
   align-items: center
   gap: 0.5rem
