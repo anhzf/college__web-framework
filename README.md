@@ -9,7 +9,10 @@ Aplikasi manajemen peminjaman fasilitas dan ruangan.
 ### Tools yang disarankan
 - [VSCode](https://code.visualstudio.com/)
 
-  Kemudian install ekstensi yang direkomendasikan, dapat dilihat di tab `Extensions` -> Recommended
+  Kemudian install ekstensi yang direkomendasikan, dapat dilihat di tab `Extensions` -> Recommended.
+
+  Setelah clone klik kanan pada file `uas-pwf.code-workspace` open with vscode.
+
 
 ### Clone Repository
 1. Buka terminal kemudian arahkan ke folder tujuan.

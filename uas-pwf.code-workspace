@@ -4,6 +4,9 @@
       "path": "./webapp"
     },
     {
+      "path": "./api"
+    },
+    {
       "path": ".",
       "name": "$root"
     },
@@ -17,7 +20,8 @@
       "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     },
     "conventionalCommits.scopes": [
-      "webapp"
+      "webapp",
+      "api"
     ]
   }
 }
