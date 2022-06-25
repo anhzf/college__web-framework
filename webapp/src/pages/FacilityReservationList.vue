@@ -7,7 +7,7 @@
 
       <v-col cols="auto">
         <v-btn
-          :to="{name: 'RoomReservation_Create'}"
+          :to="{name: 'FacilityReservation_Create'}"
           prepend-icon="mdi-plus"
         >
           Reservasi
