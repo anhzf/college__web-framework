@@ -15,7 +15,7 @@
           Welcome to Vuetify 3 Beta
         </h1>
 
-          <h4>Vite Preview</h4>
+        <h4>Vite Preview</h4>
 
         <p class="subheading font-weight-regular">
           For help and collaboration with other Vuetify developers,
@@ -94,15 +94,15 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 // Logo
-import logo from '../assets/logo.svg'
+import logo from '../assets/logo.svg';
 
 export default defineComponent({
   name: 'HelloWorld',
 
-  data () {
+  data() {
     return {
       ecosystem: [
         {
@@ -151,7 +151,7 @@ export default defineComponent({
           href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
         },
       ],
-    }
+    };
   },
-})
+});
 </script>
