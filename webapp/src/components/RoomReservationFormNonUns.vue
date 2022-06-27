@@ -5,14 +5,14 @@
       v-model="valid"
       lazy-validation
     >
-      <h2>Form Peminjaman Fasilitas</h2>
+      <h2>Form Reservasi Laboratorium Member Non UNS</h2>
       <v-col
         cols="auto"
         sm="6"
       >
         <v-select
           :items="items"
-          label="Pilih Jenis Fasilitas"
+          label="Pilih Laboratorium"
         />
       </v-col>
 
@@ -21,19 +21,18 @@
         sm="6"
       >
         <v-text-field
-          label="Masukkan Jumlah"
-          type="number"
-          min="0"
-        />
-      </v-col>
-
-      <v-col
-        cols="auto"
-        sm="6"
-      >
-        <v-text-field
-          label="Tanggal Pinjam"
+          label="Pilih Jadwal"
           type="datetime-local"
+        />
+      </v-col>
+
+      <v-col
+        cols="auto"
+        sm="6"
+      >
+        <v-file-input
+          accept="image/*"
+          label="Bukti Pembayaran"
         />
       </v-col>
 
@@ -49,7 +48,7 @@
 <script>
 export default {
   data: () => ({
-    items: ['Komputer', 'Router', 'Kamera'],
+    items: ['Software Engineering', 'Computer Network and Instrumentation', 'Multimedia Studio'],
   }),
 };
 </script>
