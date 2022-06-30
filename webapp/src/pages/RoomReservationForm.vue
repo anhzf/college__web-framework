@@ -7,7 +7,7 @@
       <v-row justify="space-between">
         <v-col justify="space-between">
           <v-img
-            src="https://cdn-icons.flaticon.com/png/512/2821/premium/2821637.png?token=exp=1656567002~hmac=2f9f00c0545d3f423e3e86f6486eebfc"
+            src="https://cdn-icons.flaticon.com/png/512/2821/premium/2821637.png?token=exp=1656580591~hmac=454037819d5cc58a89d7881fc92a83e0"
             height="200px"
           />
         </v-col>
@@ -61,7 +61,7 @@
       <v-row>
         <v-col>
           <v-img
-            src="https://cdn-icons.flaticon.com/png/512/2821/premium/2821637.png?token=exp=1656567002~hmac=2f9f00c0545d3f423e3e86f6486eebfc"
+            src="https://cdn-icons.flaticon.com/png/512/2821/premium/2821637.png?token=exp=1656580591~hmac=454037819d5cc58a89d7881fc92a83e0"
             height="200px"
           />
         </v-col>
