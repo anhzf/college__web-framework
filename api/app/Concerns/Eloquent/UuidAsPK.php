@@ -20,10 +20,19 @@ trait UuidAsPK
   public static function bootUuidAsPK()
   {
     static::creating(function (Model $model) {
-      error_log('creating');
-      if (empty($model->getKey())) {
-        $model->setAttribute($model->getKeyName(), Str::orderedUuid());
-      }
+      static::setPK($model);
     });
+  }
+
+  public function initializeUuid()
+  {
+    $this::setPK($this);
+  }
+
+  private static function setPK(Model $model)
+  {
+    if (empty($model->getKey())) {
+      $model->setAttribute($model->getKeyName(), Str::orderedUuid());
+    }
   }
 }

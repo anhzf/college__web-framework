@@ -17,8 +17,6 @@ return new class extends Migration
       $table->id();
       $table->unsignedBigInteger('reservation_id')->index();
       $table->foreign('reservation_id')->references('id')->on('reservations');
-      $table->uuid('attachment_id')->index();
-      $table->foreign('attachment_id')->references('id')->on('reservations');
       $table->string('status');
       $table->timestamps();
     });

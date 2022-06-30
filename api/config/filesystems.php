@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
     |--------------------------------------------------------------------------
@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+  'default' => env('FILESYSTEM_DISK', 'local'),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
@@ -28,37 +28,49 @@ return [
     |
     */
 
-    'disks' => [
+  'disks' => [
 
-        'local' => [
-            'driver' => 'local',
-            'root' => storage_path('app'),
-            'throw' => false,
-        ],
-
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
-        ],
-
+    'local' => [
+      'driver' => 'local',
+      'root' => storage_path('app'),
+      'throw' => false,
     ],
 
-    /*
+    'public' => [
+      'driver' => 'local',
+      'root' => storage_path('app/public'),
+      'url' => env('APP_URL') . '/storage',
+      'visibility' => 'public',
+      'throw' => false,
+    ],
+
+    's3' => [
+      'driver' => 's3',
+      'key' => env('AWS_ACCESS_KEY_ID'),
+      'secret' => env('AWS_SECRET_ACCESS_KEY'),
+      'region' => env('AWS_DEFAULT_REGION'),
+      'bucket' => env('AWS_BUCKET'),
+      'url' => env('AWS_URL'),
+      'endpoint' => env('AWS_ENDPOINT'),
+      'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+      'throw' => false,
+    ],
+
+    'gcs' => [
+      'driver' => 'gcs',
+      'key_file_path' => env('GOOGLE_CLOUD_KEY_FILE', null), // optional: /path/to/service-account.json
+      'key_file' => [], // optional: Array of data that substitutes the .json file (see below)
+      'project_id' => env('GOOGLE_CLOUD_PROJECT_ID', 'learning-project-321200'), // optional: is included in key file
+      'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'dev-test-local-personal'),
+      'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', ''), // optional: /default/path/to/apply/in/bucket
+      'apiEndpoint' => env('GOOGLE_CLOUD_STORAGE_API_URI', null), // see: Public URLs below
+      'visibility' => 'public', // optional: public|private
+      'metadata' => ['cacheControl' => 'public,max-age=86400'], // optional: default metadata
+    ],
+
+  ],
+
+  /*
     |--------------------------------------------------------------------------
     | Symbolic Links
     |--------------------------------------------------------------------------
@@ -69,8 +81,8 @@ return [
     |
     */
 
-    'links' => [
-        public_path('storage') => storage_path('app/public'),
-    ],
+  'links' => [
+    public_path('storage') => storage_path('app/public'),
+  ],
 
 ];

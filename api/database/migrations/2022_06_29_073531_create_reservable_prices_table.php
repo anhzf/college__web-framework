@@ -15,8 +15,7 @@ return new class extends Migration
   {
     Schema::create('reservable_prices', function (Blueprint $table) {
       $table->id();
-      $table->string('reservable_id');
-      $table->string('reservable_type');
+      $table->morphs('reservable');
       $table->string('label');
       $table->unsignedInteger('price_start');
       $table->unsignedInteger('price_per_time_unit')->nullable();

@@ -15,8 +15,7 @@ return new class extends Migration
   {
     Schema::create('reservations', function (Blueprint $table) {
       $table->id();
-      $table->string('reservable_id');
-      $table->string('reservable_type');
+      $table->morphs('reservable');
       $table->dateTime('start');
       $table->unsignedInteger('long')->nullable();
       $table->unsignedInteger('qty')->nullable();

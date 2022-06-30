@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Enums\APIMessage;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +35,7 @@ class AuthController extends APIController
       ]);
     }
 
-    return $this->sendError('INVALID_CREDENTIALS', 401);
+    return $this->sendError(APIMessage::INVALID_CREDENTIALS, 401);
   }
 
   public function signUp(Request $request)
@@ -46,6 +49,7 @@ class AuthController extends APIController
     $user = User::create(array_merge($validated, [
       'password' => Hash::make($validated['password']),
     ]));
+    event(new Registered($user));
     $token = $user->createToken('authToken')->plainTextToken;
     return $this->send([
       'username' => $user->name,
@@ -57,5 +61,17 @@ class AuthController extends APIController
   {
     Auth::user()->currentAccessToken()->delete();
     return $this->send(null, 'signed out');
+  }
+
+  public function verify(Request $request)
+  {
+    $request->user()->sendEmailVerificationNotification();
+    return $this->send(null, APIMessage::VERIFICATION_SENT);
+  }
+
+  public function verifyVerification(EmailVerificationRequest $request)
+  {
+    $request->fulfill();
+    return $this->send(null, APIMessage::SUCCESS_VERIFICATION);
   }
 }

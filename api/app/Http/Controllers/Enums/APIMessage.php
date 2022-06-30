@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Http\Controllers\Enums;
+
+enum APIMessage: string
+{
+  case SUCCESS_VERIFICATION = 'SUCCESS_VERIFICATION';
+
+  case VERIFICATION_SENT = 'VERIFICATION_SENT';
+
+  case INVALID_CREDENTIALS = 'INVALID_CREDENTIALS';
+  case INVALID_PARAMETERS = 'INVALID_PARAMETERS';
+}

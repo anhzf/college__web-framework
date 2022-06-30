@@ -21,13 +21,6 @@ return new class extends Migration
       $table->foreign('added_by_id')->references('id')->on('users');
       $table->timestamps();
     });
-
-    Schema::create('facilities_images', function (Blueprint $table) {
-      $table->unsignedBigInteger('facility_id')->index();
-      $table->foreign('facility_id')->references('id')->on('facilities');
-      $table->uuid('image_id')->index();
-      $table->foreign('image_id')->references('id')->on('files');
-    });
   }
 
   /**
@@ -37,7 +30,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('facilities_images');
     Schema::dropIfExists('facilities');
   }
 };
