@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\ReservationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,11 +24,10 @@ return new class extends Migration
       $table->text('description')->nullable();
       $table->unsignedBigInteger('user_id')->index();
       $table->foreign('user_id')->references('id')->on('users');
-      $table->string('status')->default('pending');
-      $table->unsignedInteger('billed_amount')->nullable();
-      $table->unsignedBigInteger('approval_assigned_by_id')->index();
+      $table->string('status')->default(ReservationStatus::Pending->value);
+      $table->unsignedBigInteger('approval_assigned_by_id')->index()->nullable();
       $table->foreign('approval_assigned_by_id')->references('id')->on('users');
-      $table->dateTime('approval_assigned_at');
+      $table->dateTime('approval_assigned_at')->nullable();
       $table->timestamps();
     });
   }

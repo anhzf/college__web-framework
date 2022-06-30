@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\ReservationPaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +18,8 @@ return new class extends Migration
       $table->id();
       $table->unsignedBigInteger('reservation_id')->index();
       $table->foreign('reservation_id')->references('id')->on('reservations');
-      $table->string('status');
+      $table->string('status')->default(ReservationPaymentStatus::Unpaid->value);
+      $table->unsignedInteger('billed_amount');
       $table->timestamps();
     });
   }

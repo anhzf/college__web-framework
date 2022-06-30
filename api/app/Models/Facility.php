@@ -4,23 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
  * @property string $name
  * @property string|null $description
+ * @property int $room_id
  * @property int $added_by_id
+ * @property array $specs
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * Relationships
  * @property User $addedBy
  * @property File[] $images
+ * @property Room $room
  * @property Reservation[] $reservations
  * @property ReservablePrice[] $prices
  */
-class Facility extends Model
+class Facility extends Model implements HasMedia
 {
-  use HasFactory;
+  use HasFactory, InteractsWithMedia;
+
+  protected $guarded = [];
 
   public function addedBy()
   {
@@ -30,6 +37,11 @@ class Facility extends Model
   public function images()
   {
     return $this->belongsToMany(File::class);
+  }
+
+  public function room()
+  {
+    return $this->belongsTo(Room::class);
   }
 
   public function reservations()

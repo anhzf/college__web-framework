@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $reservable_type
  * @property string $label
  * @property int $price_start
- * @property int|null $price_per_time_unit
- * @property int|null $price_time_unit
+ * @property int|null $price_per_hour
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * Relationships
@@ -21,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
 class ReservablePrice extends Model
 {
   use HasFactory;
+
+  protected $guarded = [];
 
   /**
    * Get the parent reservable model (room or facility).

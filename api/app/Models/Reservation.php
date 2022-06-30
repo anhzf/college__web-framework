@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $description
  * @property int $user_id
  * @property \App\Models\Enums\ReservationStatus $status
- * @property int|null $billed_amount
  * @property int $approval_assigned_by_id
  * @property \Illuminate\Support\Carbon $approval_assigned_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -24,10 +23,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property Room|Facility $reservable
  * @property User $user
  * @property User $approvalAssignee
+ * @property ReservationPayment $billings
  */
 class Reservation extends Model
 {
   use HasFactory;
+
+  protected $guarded = [];
 
   /**
    * Get the parent reservable model (room or facility).
@@ -45,5 +47,24 @@ class Reservation extends Model
   public function approvalAssignee()
   {
     return $this->belongsTo(User::class, 'approval_assigned_by_id');
+  }
+
+  public function billings()
+  {
+    return $this->hasMany(ReservationPayment::class);
+  }
+
+  public function countBill()
+  {
+    /** @var ReservablePrice */
+    $price = $this->reservable->price();
+    $start = $price->price_start;
+
+    if (is_int($price->price_per_hour)) {
+      $multiplier = is_int($this->long) ? round($this->long / 60) : 0;
+      return $start + ($price->price_per_hour * $multiplier);
+    }
+
+    return $start;
   }
 }

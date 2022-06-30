@@ -16,7 +16,7 @@ return new class extends Migration
     Schema::create('facilities', function (Blueprint $table) {
       $table->id();
       $table->string('name');
-      $table->text('description');
+      $table->text('description')->nullable();
       $table->unsignedBigInteger('added_by_id')->index();
       $table->foreign('added_by_id')->references('id')->on('users');
       $table->timestamps();

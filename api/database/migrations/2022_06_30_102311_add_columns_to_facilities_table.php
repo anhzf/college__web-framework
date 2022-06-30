@@ -13,13 +13,10 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('reservable_prices', function (Blueprint $table) {
-      $table->id();
-      $table->morphs('reservable');
-      $table->string('label');
-      $table->unsignedInteger('price_start');
-      $table->unsignedInteger('price_per_hour')->nullable();
-      $table->timestamps();
+    Schema::table('facilities', function (Blueprint $table) {
+      $table->unsignedBigInteger('room_id')->nullable();
+      $table->foreign('room_id')->references('id')->on('rooms');
+      $table->json('specs')->nullable();
     });
   }
 
@@ -30,6 +27,9 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('reservable_prices');
+    Schema::table('facilities', function (Blueprint $table) {
+      $table->dropForeign(['room_id']);
+      $table->dropColumn(['specs']);
+    });
   }
 };

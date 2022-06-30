@@ -34,6 +34,8 @@ class File extends Model
 {
   use UuidAsPK, HasFactory;
 
+  protected $guarded = [];
+
   /**
    * @param \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $file
    */

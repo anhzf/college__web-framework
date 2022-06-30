@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -16,11 +18,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property User $addedBy
  * @property File[] $images
  * @property Reservation[] $reservations
+ * @property Facility[] $facilities
  * @property ReservablePrice[] $prices
  */
-class Room extends Model
+class Room extends Model implements HasMedia
 {
-  use HasFactory;
+  use HasFactory, InteractsWithMedia;
+
+  protected $guarded = [];
 
   public function addedBy()
   {
@@ -35,6 +40,11 @@ class Room extends Model
   public function reservations()
   {
     return $this->morphMany(Reservation::class, 'reservable');
+  }
+
+  public function facilities()
+  {
+    return $this->hasMany(Facility::class);
   }
 
   public function prices()

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -17,7 +18,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string $password
  * @property string $role
  * @property string|null $remember_token
+ * @property bool $is_internal
+ * @property int|null $is_internal_verified_by_id
+ * @property \Illuminate\Support\Carbon|null $is_internal_verified_at
  * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property int|null $verified_by_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * Relationships
@@ -66,5 +71,21 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
   public function reservations()
   {
     return $this->hasMany(Reservation::class);
+  }
+
+  public function addedRooms()
+  {
+    return $this->hasMany(Room::class, 'added_by_id');
+  }
+
+  public function addedFacilities()
+  {
+    return $this->hasMany(Facility::class, 'added_by_id');
+  }
+
+  public function registerMediaConversions(Media $media = null): void
+  {
+    $this->addMediaConversion('thumb')
+      ->withResponsiveImages();
   }
 }
