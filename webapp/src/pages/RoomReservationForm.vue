@@ -1,83 +1,121 @@
 <template>
   <v-container fluid>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
+    <v-card
+      class="mx-auto container"
+      max-width="1000"
     >
-      <h2>Form Reservasi Laboratorium Member UNS</h2>
-      <v-col
-        cols="auto"
-        sm="6"
-      >
-        <v-select
-          :items="items"
-          label="Pilih Laboratorium"
-        />
-      </v-col>
+      <v-row justify="space-between">
+        <v-col justify="space-between">
+          <v-img
+            src="https://cdn-icons.flaticon.com/png/512/2821/premium/2821637.png?token=exp=1656567002~hmac=2f9f00c0545d3f423e3e86f6486eebfc"
+            height="200px"
+          />
+        </v-col>
+        <v-col>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-col>
+              <h2>Form Reservasi Laboratorium Member UNS</h2>
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-select
+                :items="items"
+                label="Pilih Laboratorium"
+              />
+            </v-col>
 
-      <v-col
-        cols="auto"
-        sm="6"
-      >
-        <v-text-field
-          label="Pilih Jadwal"
-          type="datetime-local"
-        />
-      </v-col>
-
-      <v-btn
-        :to="{name: ''}"
-        prepend-icon="mdi-plus"
-      >
-        PESAN
-      </v-btn>
-    </v-form>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-text-field
+                label="Pilih Jadwal"
+                type="datetime-local"
+              />
+            </v-col>
+            <v-col>
+              <v-btn
+                :to="{name: ''}"
+                prepend-icon="mdi-plus"
+                color="primary"
+              >
+                PESAN
+              </v-btn>
+            </v-col>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
   <v-container fluid>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
+    <v-card
+      class="mx-auto container"
+      max-width="1000"
     >
-      <h2>Form Reservasi Laboratorium Member Non UNS</h2>
-      <v-col
-        cols="auto"
-        sm="6"
-      >
-        <v-select
-          :items="items"
-          label="Pilih Laboratorium"
-        />
-      </v-col>
+      <v-row>
+        <v-col>
+          <v-img
+            src="https://cdn-icons.flaticon.com/png/512/2821/premium/2821637.png?token=exp=1656567002~hmac=2f9f00c0545d3f423e3e86f6486eebfc"
+            height="200px"
+          />
+        </v-col>
+        <v-col>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-col>
+              <h2>Form Reservasi Laboratorium Member Non UNS</h2>
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-select
+                :items="items"
+                label="Pilih Laboratorium"
+              />
+            </v-col>
 
-      <v-col
-        cols="auto"
-        sm="6"
-      >
-        <v-text-field
-          label="Pilih Jadwal"
-          type="datetime-local"
-        />
-      </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-text-field
+                label="Pilih Jadwal"
+                type="datetime-local"
+              />
+            </v-col>
 
-      <v-col
-        cols="auto"
-        sm="6"
-      >
-        <v-file-input
-          accept="image/*"
-          label="Bukti Pembayaran"
-        />
-      </v-col>
-
-      <v-btn
-        :to="{name: ''}"
-        prepend-icon="mdi-plus"
-      >
-        PESAN
-      </v-btn>
-    </v-form>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-file-input
+                accept="image/*"
+                label="Bukti Pembayaran"
+              />
+            </v-col>
+            <v-col>
+              <v-btn
+                :to="{name: ''}"
+                prepend-icon="mdi-plus"
+                color="primary"
+              >
+                PESAN
+              </v-btn>
+            </v-col>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 <script>
@@ -87,3 +125,8 @@ export default {
   }),
 };
 </script>
+<style>
+.container {
+  padding: 50px;
+}
+</style>
