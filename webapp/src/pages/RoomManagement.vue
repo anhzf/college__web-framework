@@ -42,12 +42,6 @@
                 >
                   Hapus
                 </v-btn>
-                <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
-                >
-                  Tambah
-                </v-btn>
               </td>
             </tr>
             <tr>
@@ -63,12 +57,6 @@
                   color="error"
                 >
                   Hapus
-                </v-btn>
-                <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
-                >
-                  Tambah
                 </v-btn>
               </td>
             </tr>
@@ -86,12 +74,6 @@
                 >
                   Hapus
                 </v-btn>
-                <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
-                >
-                  Tambah
-                </v-btn>
               </td>
             </tr>
             <tr>
@@ -107,12 +89,6 @@
                   color="error"
                 >
                   Hapus
-                </v-btn>
-                <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
-                >
-                  Tambah
                 </v-btn>
               </td>
             </tr>
@@ -130,12 +106,6 @@
                 >
                   Hapus
                 </v-btn>
-                <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
-                >
-                  Tambah
-                </v-btn>
               </td>
             </tr>
             <tr>
@@ -151,12 +121,6 @@
                   color="error"
                 >
                   Hapus
-                </v-btn>
-                <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
-                >
-                  Tambah
                 </v-btn>
               </td>
             </tr>
