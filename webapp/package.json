@@ -6,7 +6,8 @@
     "serve": "vite preview",
     "build": "vite build",
     "dev": "vite --open",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.ts,.vue ./src"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.1",
