@@ -15,6 +15,8 @@
                 <h1>Kelola Fasilitas - Perbarui</h1>
                 <v-text-field
                   label="Nama Fasilitas"
+                  :rules="[v => !!v || 'Nama Fasilitas harus di isi']"
+                  required
                 />
                 <v-text-field
                   label="Deskripsi"
