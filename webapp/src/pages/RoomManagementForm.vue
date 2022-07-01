@@ -16,17 +16,10 @@
                 <v-text-field
                   label="Nama Ruangan"
                 />
-                <v-text-field
-                  label="Jumlah"
-                />
                 <v-textarea
                   solo
                   name="input-7-4"
                   label="Deskripsi"
-                />
-                <v-file-input
-                  accept="image/*"
-                  label="Upload Foto"
                 />
               </v-col>
               <v-col
