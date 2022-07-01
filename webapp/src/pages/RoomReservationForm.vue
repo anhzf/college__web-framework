@@ -25,8 +25,11 @@
               sm="10"
             >
               <v-select
+                v-model="select"
                 :items="items"
                 label="Pilih Laboratorium"
+                :rules="[v => !!v || 'Laboratorium harus di isi']"
+                required
               />
             </v-col>
 
@@ -37,6 +40,41 @@
               <v-text-field
                 label="Pilih Jadwal"
                 type="datetime-local"
+                :rules="[v => !!v || 'Harap pilih jadwal peminjaman']"
+                required
+              />
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-text-field
+                label="Durasi (menit)"
+                type="number"
+                min="0"
+                max="300"
+                :rules="[v => !!v || 'Harap isi durasi peminjaman']"
+                required
+              />
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-text-field
+                label="Nama Kegiatan"
+                type="text"
+                :rules="[v => !!v || 'Nama kegiatan harus diisi']"
+                required
+              />
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-textarea
+                label="Deskripsi Kegiatan"
+                type="textarea"
               />
             </v-col>
             <v-col>
@@ -79,8 +117,11 @@
               sm="10"
             >
               <v-select
+                v-model="select"
                 :items="items"
                 label="Pilih Laboratorium"
+                :rules="[v => !!v || 'Laboratorium harus di isi']"
+                required
               />
             </v-col>
 
@@ -91,9 +132,43 @@
               <v-text-field
                 label="Pilih Jadwal"
                 type="datetime-local"
+                :rules="[v => !!v || 'Harap pilih jadwal peminjaman']"
+                required
               />
             </v-col>
-
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-text-field
+                label="Durasi (menit)"
+                type="number"
+                min="0"
+                max="300"
+                :rules="[v => !!v || 'Harap isi durasi peminjaman']"
+                required
+              />
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-text-field
+                label="Nama Kegiatan"
+                type="text"
+                :rules="[v => !!v || 'Nama kegiatan harus diisi']"
+                required
+              />
+            </v-col>
+            <v-col
+              cols="auto"
+              sm="10"
+            >
+              <v-textarea
+                label="Deskripsi Kegiatan"
+                type="textarea"
+              />
+            </v-col>
             <v-col
               cols="auto"
               sm="10"
@@ -101,6 +176,8 @@
               <v-file-input
                 accept="image/*"
                 label="Bukti Pembayaran"
+                :rules="[v => !!v || 'Harap sertakan bukti pembayaran']"
+                required
               />
             </v-col>
             <v-col>
@@ -121,6 +198,8 @@
 <script>
 export default {
   data: () => ({
+    valid: true,
+    select: null,
     items: ['Software Engineering', 'Computer Network and Instrumentation', 'Multimedia Studio'],
   }),
 };
