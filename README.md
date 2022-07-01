@@ -57,7 +57,7 @@ Aplikasi ini dibuat untuk keperluan tugas UAS kuliah.
 | -------- | ----------------------- |
 | K3519008 | Alviana Hermawati       |
 | K3519010 | Alwan Nuha Zaky Fadhila |
-| K35190XX | Amalia                  |
+| K3519011 | Amalia Rizqi Marwah     |
 
 
 ## External Links
