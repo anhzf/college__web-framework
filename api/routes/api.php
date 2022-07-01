@@ -32,10 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::apiResources([
   'activities' => \App\Http\Controllers\ActivityController::class,
   'facilities' => \App\Http\Controllers\FacilityController::class,
-  'files' => \App\Http\Controllers\FileController::class,
-  'reservablePrices' => \App\Http\Controllers\ReservablePriceController::class,
+  // 'files' => \App\Http\Controllers\FileController::class,
+  'reservable-prices' => \App\Http\Controllers\ReservablePriceController::class,
   'reservations' => \App\Http\Controllers\ReservationController::class,
-  'reservationPayments' => \App\Http\Controllers\ReservationPaymentController::class,
+  'reservation-payments' => \App\Http\Controllers\ReservationPaymentController::class,
   'rooms' => \App\Http\Controllers\RoomController::class,
   'users' => \App\Http\Controllers\UserController::class,
 ]);

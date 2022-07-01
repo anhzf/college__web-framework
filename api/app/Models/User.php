@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Enums\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,7 +18,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $name
  * @property string $email
  * @property string $password
- * @property string $role
+ * @property UserRole $role
  * @property string|null $remember_token
  * @property bool $is_internal
  * @property int|null $is_internal_verified_by_id
@@ -25,6 +27,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int|null $verified_by_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * Computed
+ * @property-read bool $isAdmin
  * Relationships
  * @property Activity[] $activities
  * @property Reservation[] $reservations
@@ -62,6 +66,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];
+
+  public function role(): Attribute
+  {
+    return Attribute::get(fn ($v) => UserRole::from($v));
+  }
+
+  public function getIsAdminAttribute()
+  {
+    return $this->role === UserRole::Admin;
+  }
 
   public function activities()
   {

@@ -11,9 +11,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property int $room_id
+ * @property int|null $room_id
  * @property int $added_by_id
- * @property array $specs
+ * @property array|null $specs
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * Relationships
