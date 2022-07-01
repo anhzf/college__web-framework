@@ -13,35 +13,55 @@
             <div class="header">
               <h1>Sign Up</h1>
             </div>
-            <v-text-field
-              label="Nama"
-            />
-            <v-text-field
-              label="Email"
-            />
-            <v-text-field
-              label="Username"
-            />
-            <v-text-field
-              label="Password"
-            />
-            <v-text-field
-              label="Tulis ulang Password"
-            />
-            <v-checkbox
-              v-model="checkbox"
-              :label="`Daftar sebagai Civitas UNS`"
-            />
-            <v-text-field
-              label="NIM Mahasiswa/NIP Dosen"
-            />
-            <v-btn
-              :to="{name:'SignUp'}"
-              color="primary"
+            <v-form
+              ref="form"
+              v-model="valid"
+              lazy-validation
             >
-              Sign Up
-            </v-btn>
-            <p><a href="">Sudah punya akun? Sign In</a></p>
+              <v-text-field
+                label="Nama Lengkap"
+                :rules="nameRules"
+                required
+              />
+              <v-text-field
+                label="Email"
+                :rules="emailRules"
+                required
+              />
+              <v-text-field
+                label="Username"
+              />
+              <v-text-field
+                v-model="password"
+                label="Password"
+                :rules="[v => !!v || 'Password harus di isi']"
+                required
+              />
+              <v-text-field
+                label="Tulis ulang Password"
+                required
+              />
+              <v-checkbox
+                v-model="checkbox"
+                label="Saya anggota Civitas UNS"
+              />
+              <v-file-input
+                accept="image/*"
+                label="Kartu Tanda Anggota"
+                :rules="[v => !!v || 'Harap sertakan bukti KTA']"
+                required
+              />
+              <v-text-field
+                label="NIM Mahasiswa/NIP Dosen"
+              />
+              <v-btn
+                :to="{name:'SignUp'}"
+                color="primary"
+              >
+                Sign Up
+              </v-btn>
+            </v-form>
+            <p><a href="/signin">Sudah punya akun? Sign In</a></p>
           </v-col>
         </v-col>
       </v-row>
@@ -49,10 +69,22 @@
   </v-container>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-
-const checkbox = ref(true);
+<script>
+export default {
+  data: () => ({
+    valid: true,
+    name: '',
+    nameRules: [
+      (v) => !!v || 'Harap isi nama Anda',
+    ],
+    email: '',
+    emailRules: [
+      (v) => !!v || 'Harap isi E-mail Anda',
+      (v) => /.+@.+\..+/.test(v) || 'E-mail harus valid',
+    ],
+    checkbox: false,
+  }),
+};
 </script>
 <style>
 .header {
