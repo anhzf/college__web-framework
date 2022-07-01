@@ -17,12 +17,16 @@
                   label="Nama Fasilitas"
                 />
                 <v-text-field
-                  label="Jumlah"
+                  label="Deskripsi"
+                />
+                <v-select
+                  :items="items"
+                  label="Pilih Laboratorium"
                 />
                 <v-textarea
                   solo
                   name="input-7-4"
-                  label="Deskripsi"
+                  label="Spesifikasi"
                 />
                 <v-file-input
                   accept="image/*"
@@ -46,3 +50,10 @@
     </v-row>
   </v-container>
 </template>
+<script>
+export default {
+  data: () => ({
+    items: ['Software Engineering', 'Computer Network and Instrumentation', 'Multimedia Studio'],
+  }),
+};
+</script>

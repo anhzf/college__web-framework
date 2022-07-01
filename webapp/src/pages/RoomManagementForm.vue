@@ -14,19 +14,12 @@
               >
                 <h1>Kelola Ruangan - Perbarui</h1>
                 <v-text-field
-                  label="Nama Fasilitas"
-                />
-                <v-text-field
-                  label="Jumlah"
+                  label="Nama Ruangan"
                 />
                 <v-textarea
                   solo
                   name="input-7-4"
                   label="Deskripsi"
-                />
-                <v-file-input
-                  accept="image/*"
-                  label="Upload Foto"
                 />
               </v-col>
               <v-col

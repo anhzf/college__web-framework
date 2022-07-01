@@ -23,32 +23,104 @@
         >
           <thead>
             <tr>
-              <th>Nama Fasilitas</th>
-              <th>Jumlah</th>
+              <th>Nama Ruangan</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Ruangan Multimedia</td>
-              <td>2</td>
+              <td>Multimedia Studio A</td>
               <td>
                 <v-btn
-                  prepend-icon="mdi-plus"
-                  color="success"
+                  color="primary"
                 >
-                  Tambah
+                  Edit
                 </v-btn>
                 <v-btn
                   prepend-icon="mdi-minus"
                   color="error"
                 >
-                  Kurang
+                  Hapus
                 </v-btn>
+              </td>
+            </tr>
+            <tr>
+              <td>Multimedia Studio B</td>
+              <td>
                 <v-btn
                   color="primary"
                 >
-                  Detail
+                  Edit
+                </v-btn>
+                <v-btn
+                  prepend-icon="mdi-minus"
+                  color="error"
+                >
+                  Hapus
+                </v-btn>
+              </td>
+            </tr>
+            <tr>
+              <td>Software Enginering A</td>
+              <td>
+                <v-btn
+                  color="primary"
+                >
+                  Edit
+                </v-btn>
+                <v-btn
+                  prepend-icon="mdi-minus"
+                  color="error"
+                >
+                  Hapus
+                </v-btn>
+              </td>
+            </tr>
+            <tr>
+              <td>Software Enginering B</td>
+              <td>
+                <v-btn
+                  color="primary"
+                >
+                  Edit
+                </v-btn>
+                <v-btn
+                  prepend-icon="mdi-minus"
+                  color="error"
+                >
+                  Hapus
+                </v-btn>
+              </td>
+            </tr>
+            <tr>
+              <td>Network Administration A</td>
+              <td>
+                <v-btn
+                  color="primary"
+                >
+                  Edit
+                </v-btn>
+                <v-btn
+                  prepend-icon="mdi-minus"
+                  color="error"
+                >
+                  Hapus
+                </v-btn>
+              </td>
+            </tr>
+            <tr>
+              <td>Network Administration B</td>
+              <td>
+                <v-btn
+                  color="primary"
+                >
+                  Edit
+                </v-btn>
+                <v-btn
+                  prepend-icon="mdi-minus"
+                  color="error"
+                >
+                  Hapus
                 </v-btn>
               </td>
             </tr>

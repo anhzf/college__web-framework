@@ -25,7 +25,8 @@
           <thead>
             <tr>
               <th>Nama Fasilitas</th>
-              <th>Jumlah</th>
+              <th>Jumlah Tersedia</th>
+              <th>Letak (Ruangan)</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -33,23 +34,23 @@
             <tr>
               <td>Router Mikrotik</td>
               <td>20</td>
+              <td>Network Administration</td>
               <td>
                 <v-btn
-                  prepend-icon="mdi-plus"
                   color="success"
                 >
-                  Tambah
+                  Edit
                 </v-btn>
                 <v-btn
                   prepend-icon="mdi-minus"
                   color="error"
                 >
-                  Kurang
+                  Hapus
                 </v-btn>
                 <v-btn
                   color="primary"
                 >
-                  Detail
+                  Lihat Detail
                 </v-btn>
               </td>
             </tr>

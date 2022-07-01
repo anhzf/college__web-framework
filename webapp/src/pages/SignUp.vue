@@ -10,7 +10,9 @@
             cols="auto"
             sm="12"
           >
-            <h1>Daftar menjadi Member</h1>
+            <div class="header">
+              <h1>Sign Up</h1>
+            </div>
             <v-text-field
               label="Nama"
             />
@@ -24,7 +26,7 @@
               label="Password"
             />
             <v-text-field
-              label="Re-Password"
+              label="Tulis ulang Password"
             />
             <v-checkbox
               v-model="checkbox"
@@ -39,6 +41,7 @@
             >
               Sign Up
             </v-btn>
+            <p><a href="">Sudah punya akun? Sign In</a></p>
           </v-col>
         </v-col>
       </v-row>
@@ -51,3 +54,9 @@ import { ref } from 'vue';
 
 const checkbox = ref(true);
 </script>
+<style>
+.header {
+  text-align: center;
+  font-size: 15px;
+}
+</style>
