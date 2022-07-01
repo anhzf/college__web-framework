@@ -31,23 +31,12 @@
                 :rules="[v => !!v || 'Laboratorium harus di isi']"
                 required
               />
-            </v-col>
-
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-text-field
                 label="Pilih Jadwal"
                 type="datetime-local"
                 :rules="[v => !!v || 'Harap pilih jadwal peminjaman']"
                 required
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-text-field
                 label="Durasi (menit)"
                 type="number"
@@ -56,28 +45,16 @@
                 :rules="[v => !!v || 'Harap isi durasi peminjaman']"
                 required
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-text-field
                 label="Nama Kegiatan"
                 type="text"
                 :rules="[v => !!v || 'Nama kegiatan harus diisi']"
                 required
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-textarea
                 label="Deskripsi Kegiatan"
                 type="textarea"
               />
-            </v-col>
-            <v-col>
               <v-btn
                 :to="{name: ''}"
                 prepend-icon="mdi-plus"
@@ -123,23 +100,12 @@
                 :rules="[v => !!v || 'Laboratorium harus di isi']"
                 required
               />
-            </v-col>
-
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-text-field
                 label="Pilih Jadwal"
                 type="datetime-local"
                 :rules="[v => !!v || 'Harap pilih jadwal peminjaman']"
                 required
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-text-field
                 label="Durasi (menit)"
                 type="number"
@@ -148,39 +114,22 @@
                 :rules="[v => !!v || 'Harap isi durasi peminjaman']"
                 required
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-text-field
                 label="Nama Kegiatan"
                 type="text"
                 :rules="[v => !!v || 'Nama kegiatan harus diisi']"
                 required
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-textarea
                 label="Deskripsi Kegiatan"
                 type="textarea"
               />
-            </v-col>
-            <v-col
-              cols="auto"
-              sm="10"
-            >
               <v-file-input
                 accept="image/*"
                 label="Bukti Pembayaran"
                 :rules="[v => !!v || 'Harap sertakan bukti pembayaran']"
                 required
               />
-            </v-col>
-            <v-col>
               <v-btn
                 :to="{name: ''}"
                 prepend-icon="mdi-plus"
