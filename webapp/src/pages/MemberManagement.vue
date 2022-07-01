@@ -16,6 +16,7 @@
             <tr>
               <th>Nama</th>
               <th>Email</th>
+              <th>Last Online</th>
               <th>Status Verifikasi</th>
             </tr>
           </thead>
@@ -23,6 +24,7 @@
             <tr>
               <td>Alviana</td>
               <td>alviana.hermawati1261@gmail.com</td>
+              <td>Date</td>
               <td>
                 <v-btn
                   color="primary"
@@ -34,6 +36,7 @@
             <tr>
               <td>Alviana</td>
               <td>alviana.hermawati1261@gmail.com</td>
+              <td>Date</td>
               <td>
                 <v-chip
                   color="success"
