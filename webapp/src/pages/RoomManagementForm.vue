@@ -14,7 +14,7 @@
               >
                 <h1>Kelola Ruangan - Perbarui</h1>
                 <v-text-field
-                  label="Nama Fasilitas"
+                  label="Nama Ruangan"
                 />
                 <v-text-field
                   label="Jumlah"
