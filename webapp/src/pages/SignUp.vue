@@ -61,7 +61,11 @@
                 Sign Up
               </v-btn>
             </v-form>
-            <p><a href="/signin">Sudah punya akun? Sign In</a></p>
+            <p>
+              <router-link to="/signin">
+                Sudah punya akun? Sign In
+              </router-link>
+            </p>
           </v-col>
         </v-col>
       </v-row>

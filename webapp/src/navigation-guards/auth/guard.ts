@@ -1,6 +1,6 @@
-import { NavigationGuard, RouteLocationRaw } from 'vue-router';
+import { NavigationGuard } from 'vue-router';
 import UnathenticatedError from '../../errors/UnauthenticatedError';
-import router from '../../router';
+import UnathorizedError from '../../errors/UnauthorizedError';
 import { useAuthStore } from '../../stores/auth';
 import { errorAsNotification } from '../../utils/ui';
 import {
@@ -12,7 +12,7 @@ const parseGuard = (name: GuardName) => {
   return { role, severity } as ({role: Role, severity: Severity});
 };
 
-const authNavigationGuard: NavigationGuard = async (to, from, next) => {
+const authNavigationGuard: NavigationGuard = async (to) => {
   if (to.meta.guard) {
     const {
       user, isAdmin, isMember, refresh,
@@ -24,21 +24,26 @@ const authNavigationGuard: NavigationGuard = async (to, from, next) => {
     }
 
     if (role === 'admin' && !isAdmin) {
-      if (user) next(false);
-      else next(FAIL_FALLBACK_ROUTE.ADMIN);
+      if (user) {
+        errorAsNotification(new UnathorizedError('Anda bukan admin!'));
+        return false;
+      }
+      errorAsNotification(new UnathenticatedError());
+      return FAIL_FALLBACK_ROUTE.ADMIN;
     }
 
     if (role === 'member' && !isMember) {
       errorAsNotification(new UnathenticatedError());
-      next(FAIL_FALLBACK_ROUTE.MEMBER);
+      return FAIL_FALLBACK_ROUTE.MEMBER;
     }
 
     if (role === 'guest' && user) {
-      next(FAIL_FALLBACK_ROUTE.GUEST);
+      errorAsNotification(new Error('Anda telah masuk!'));
+      return FAIL_FALLBACK_ROUTE.GUEST;
     }
   }
 
-  next();
+  return true;
 };
 
 export default authNavigationGuard;

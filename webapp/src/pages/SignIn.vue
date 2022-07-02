@@ -35,8 +35,16 @@
             >
               Sign In
             </v-btn>
-            <p><a href="/signup">Belum punya akun? Klik disini</a></p>
-            <p><a href="">Lupa Password?</a></p>
+            <p>
+              <router-link to="/signup">
+                Belum punya akun? Klik disini
+              </router-link>
+            </p>
+            <p>
+              <router-link to="">
+                Lupa Password?
+              </router-link>
+            </p>
           </v-col>
         </v-col>
       </v-row>

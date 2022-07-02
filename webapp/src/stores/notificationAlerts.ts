@@ -8,6 +8,7 @@ export interface NotificationOptions {
   message: string;
   title?: string;
   type?: 'success' | 'error' | 'info';
+  color?: string;
   timeout?: number | null;
   stretch?: boolean;
   position?: 'start' | 'center' | 'end';
@@ -51,7 +52,7 @@ const useNotificationAlertsStore = defineStore('notificationAlerts', () => {
           text: this.opts.message,
           modelValue: this.modelValue,
           title: this.opts.title,
-          color: this.opts.type,
+          color: this.opts.type || this.opts.color,
           class: {
             'self-stretch': this.opts.stretch,
             'self-start': this.opts.position === 'start',
