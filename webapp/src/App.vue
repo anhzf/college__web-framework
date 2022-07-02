@@ -142,6 +142,20 @@
 
     <v-main>
       <router-view />
+
+      <div class="absolute bottom-0 left-0 right-0">
+        <div class="notification-alert">
+          <v-slide-y-reverse-transition group>
+            <v-alert
+              v-for="notification in notifications"
+              :key="notification.id"
+              elevated
+              closable
+              v-bind="notification.props"
+            />
+          </v-slide-y-reverse-transition>
+        </div>
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -149,9 +163,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useDark } from '@vueuse/core';
+import useNotificationAlerts from './stores/notificationAlerts';
+import { notify } from './utils/ui';
 import type { AnyTypedFn } from './utils/types';
 
 const isDark = useDark();
+const { notifications } = useNotificationAlerts();
 const leftDrawerIsOpen = ref(true);
 const rightDrawerIsOpen = ref(false);
 
@@ -163,5 +180,12 @@ const closeOnRightDrawerItemClick = <R = void, T = [], Fn extends AnyTypedFn<R, 
   return r;
 });
 
-const onLogoutClick = closeOnRightDrawerItemClick(() => alert('logged out!'));
+const onLogoutClick = closeOnRightDrawerItemClick(() => notify({
+  message: 'Logged out!', type: 'success',
+}));
 </script>
+
+<style lang="sass">
+.notification-alert
+  @apply p-4 flex flex-col items-end gap-2.5
+</style>

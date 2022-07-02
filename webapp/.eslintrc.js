@@ -21,6 +21,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-void': 'off',
     'no-nested-ternary': 'off',
+    'no-shadow': 'off',
     'max-classes-per-file': 'off',
 
     'import/first': 'off',
