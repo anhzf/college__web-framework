@@ -1,4 +1,5 @@
 import useNotificationAlertsStore, { NotificationOptions } from '../stores/notificationAlerts';
+import useProgressBarStore from '../stores/progressBar';
 import type { AnyTypedFn } from './types';
 
 const createNotification = (data: string | NotificationOptions) => {
@@ -29,14 +30,27 @@ const errorAsNotification = (e: Error, opts: Partial<NotificationOptions> = {}) 
 
 const catchErrorAsNotification = <R = void, T = [], Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(fn: Fn) => {
   try {
-    return fn();
+    const r = fn();
+    return (r instanceof Promise
+      ? r.catch(errorAsNotification) : r) as R;
   } catch (e) {
     return errorAsNotification(e as Error);
   }
 };
 
+const setProgressBar = (progress: number) => {
+  const store = useProgressBarStore();
+  store.loaded = progress;
+};
+
+const progressBar = Object.assign(setProgressBar, {
+  start: () => setProgressBar(-1),
+  stop: () => setProgressBar(0),
+});
+
 export {
   notify,
   errorAsNotification,
   catchErrorAsNotification,
+  progressBar,
 };

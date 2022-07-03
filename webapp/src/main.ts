@@ -6,6 +6,7 @@ import { loadFonts } from './plugins/webfontloader';
 import 'tailwindcss/utilities.css';
 import router from './router';
 import pinia from './stores';
+import './utils/hijack-ajax';
 
 loadFonts();
 

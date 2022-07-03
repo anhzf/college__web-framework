@@ -143,7 +143,7 @@
     <v-main>
       <router-view />
 
-      <div class="absolute bottom-0 left-0 right-0">
+      <div class="absolute bottom-0 inset-x-0 pointer-events-none [&>*]:pointer-events-auto">
         <div class="notification-alert">
           <v-slide-y-reverse-transition group>
             <v-alert
@@ -151,10 +151,16 @@
               :key="notification.id"
               elevated
               closable
+              class="[&_.v-alert\_\_close_.v-icon:hover]:bg-slate-50/20"
               v-bind="notification.props"
             />
           </v-slide-y-reverse-transition>
         </div>
+
+        <v-progress-linear
+          :value="progressBarStore.loaded"
+          :indeterminate="progressBarStore.loaded < 0"
+        />
       </div>
     </v-main>
   </v-app>
@@ -164,11 +170,13 @@
 import { ref } from 'vue';
 import { useDark } from '@vueuse/core';
 import useNotificationAlerts from './stores/notificationAlerts';
+import useProgressBarStore from './stores/progressBar';
 import { notify } from './utils/ui';
 import type { AnyTypedFn } from './utils/types';
 
 const isDark = useDark();
 const { notifications } = useNotificationAlerts();
+const progressBarStore = useProgressBarStore();
 const leftDrawerIsOpen = ref(true);
 const rightDrawerIsOpen = ref(false);
 

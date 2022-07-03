@@ -27,6 +27,7 @@
         <v-card
           color="#FF99FF"
           dark
+          @click="yntkts"
         >
           <v-card-title class="text-h5">
             Software Engineering
@@ -44,10 +45,18 @@
     </v-row>
   </v-container>
 </template>
-<script>
-export default {
-  data: () => ({
-    show: false,
-  }),
+
+<script lang="ts" setup>
+import { getCurrentUser } from '../api/users';
+import { catchErrorAsNotification } from '../utils/ui';
+
+const throwErr = () => {
+  throw new Error('asdsadasdas');
 };
+
+const yntkts = (() => {
+  catchErrorAsNotification(async () => {
+    console.log(await getCurrentUser());
+  });
+});
 </script>
