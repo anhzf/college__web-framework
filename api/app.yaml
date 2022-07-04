@@ -1,0 +1,10 @@
+runtime: php81
+service: e-nyileh--api
+entrypoint: serve public/index.php
+instance_class: F1
+automatic_scaling:
+  max_instances: 2
+env_variables:
+  APP_ENV: production
+  APP_DEBUG: false
+

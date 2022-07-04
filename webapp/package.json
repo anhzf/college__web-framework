@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serve": "vite preview",
+    "start": "cross-env-shell vite preview --port $PORT",
     "build": "vite build",
     "dev": "vite --open",
     "preview": "vite preview",
@@ -14,6 +14,7 @@
     "@mdi/font": "5.9.55",
     "@vueuse/core": "^8.7.3",
     "axios": "^0.27.2",
+    "cross-env": "^7.0.3",
     "nanoid": "^4.0.0",
     "pinia": "^2.0.14",
     "roboto-fontface": "*",

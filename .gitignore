@@ -1,2 +1,9 @@
 # Credential files related
 *service-accounts.json
+
+# Packages and libraries related
+node_modules
+vendor
+
+# Distributable files
+dist
