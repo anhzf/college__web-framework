@@ -2,4 +2,4 @@ runtime: nodejs16
 instance_class: F1
 automatic_scaling:
   max_instances: 2
-# service: e-nyileh
+service: e-nyileh--webapp
