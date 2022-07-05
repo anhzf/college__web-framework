@@ -1,29 +1,70 @@
+import { useAsyncState, watchOnce } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import {
-  authenticate, revokeToken, signIn, SignInPayload, signOut,
-} from '../api/auth';
+import { computed, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { auth, users } from '../api';
+import routeGuardian from '../navigation-guards/auth/routeGuardian';
+import { silentNextErrorNotifcation } from '../utils/ui';
 import type { User } from '../types/models';
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: null as (null | User),
-  }),
-  getters: {
-    // admin is member too
-    isMember: (st) => ['member', 'admin'].includes(st.user!?.role),
-    isAdmin: (st) => st.user?.role === 'admin',
-  },
-  actions: {
-    async signIn(payload: SignInPayload) {
-      this.user = await signIn(payload);
-    },
+export const useAuthStore = defineStore('auth', () => {
+  const user = ref<User | null>();
+  const isVerified = computed(() => user.value?.email_verified_at);
+  const isMember = computed(() => isVerified.value && ['member', 'admin'].includes(user.value?.role || ''));
+  const isAdmin = computed(() => isVerified.value && (user.value?.role === 'admin'));
+  const refresh = async () => {
+    try {
+      const { data } = await users.getCurrentUser();
+      user.value = data;
+    } catch (err) {
+      auth.revokeToken();
+    }
+  };
+  const { isReady } = useAsyncState(async () => {
+    try {
+      await auth.authenticate();
+      await refresh();
+    } catch (err) {
+      auth.revokeToken();
+    }
+    return true;
+  }, false);
+  const router = useRouter();
+
+  const signIn = async (payload: auth.SignInPayload) => {
+    silentNextErrorNotifcation();
+    user.value = await auth.signIn(payload);
+  };
+  const signOut = () => {
+    auth.signOut();
+    user.value = null;
+  };
+
+  watch([user, () => router.currentRoute.value] as const, async ([currUser, currRoute]) => {
+    const redirect = await routeGuardian(currRoute);
+
+    switch (redirect) {
+      case true:
+        break;
+
+      case false:
+        await router.push({ name: 'Home' });
+        break;
+
+      default:
+        await router.push(redirect);
+        break;
+    }
+  });
+
+  return {
+    user,
+    isMember,
+    isAdmin,
+    isVerified,
+    isReady,
+    signIn,
     signOut,
-    async refresh() {
-      try {
-        await authenticate();
-      } catch (error) {
-        revokeToken();
-      }
-    },
-  },
+    refresh,
+  };
 });

@@ -22,6 +22,7 @@ module.exports = {
     'no-void': 'off',
     'no-nested-ternary': 'off',
     'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
     'max-classes-per-file': 'off',
 
     'import/first': 'off',

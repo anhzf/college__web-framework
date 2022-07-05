@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+import __ from '../lang';
 import useNotificationAlertsStore, { NotificationOptions } from '../stores/notificationAlerts';
 import useProgressBarStore from '../stores/progressBar';
 import type { AnyTypedFn } from './types';
@@ -13,6 +15,8 @@ const createNotificationVariant = (baseOpts: Partial<NotificationOptions>) => (d
   ...typeof data === 'string' ? { message: data } : data,
 });
 
+let nextErrorIsSilent = false;
+
 const notify = Object.assign(createNotification, {
   success: createNotificationVariant({ type: 'success' }),
   error: createNotificationVariant({ type: 'error' }),
@@ -21,22 +25,52 @@ const notify = Object.assign(createNotification, {
 
 const ERROR_NOTIFICATION_DEFAULT_TIMEOUT = 15000;
 
-const errorAsNotification = (e: Error, opts: Partial<NotificationOptions> = {}) => notify.error({
-  title: (e as any)?.title || 'Uh-oh! Something went wrong!',
-  message: e.message,
-  timeout: ERROR_NOTIFICATION_DEFAULT_TIMEOUT,
-  ...opts,
-});
+const errorAsNotification = (e: Error, opts: Partial<NotificationOptions> = {}) => {
+  if (nextErrorIsSilent) {
+    nextErrorIsSilent = false;
+    return undefined;
+  }
 
-const catchErrorAsNotification = <R = void, T = [], Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(fn: Fn) => {
+  const title = (e instanceof AxiosError && __(e.response?.data.message))
+    || ((e as any)?.title || 'Uh-oh! Something went wrong!');
+  const message = (e as any)?.message || e.toString();
+
+  return notify.error({
+    title,
+    message,
+    timeout: ERROR_NOTIFICATION_DEFAULT_TIMEOUT,
+    ...opts,
+  });
+};
+
+const silentNextErrorNotifcation = () => {
+  nextErrorIsSilent = true;
+};
+
+const catchErrorAsNotification = <T, R = void, Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(fn: Fn) => {
   try {
     const r = fn();
+    // return (r instanceof Promise
+    //   ? r.then((v) => {
+    //     debugger;
+    //     return v;
+    //   }).catch((e) => {
+    //     debugger;
+    //     return errorAsNotification(e);
+    //   })
+    //   : r) as R;
     return (r instanceof Promise
-      ? r.catch(errorAsNotification) : r) as R;
+      ? r.catch(errorAsNotification)
+      : r) as R;
   } catch (e) {
+    debugger;
     return errorAsNotification(e as Error);
   }
 };
+
+const catchErrorAsNotificationFn = <T, R = void, Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(fn: Fn) => (...args: T[]) => (
+  catchErrorAsNotification(() => fn(...args))
+);
 
 const setProgressBar = (progress: number) => {
   const store = useProgressBarStore();
@@ -52,5 +86,7 @@ export {
   notify,
   errorAsNotification,
   catchErrorAsNotification,
+  catchErrorAsNotificationFn,
+  silentNextErrorNotifcation,
   progressBar,
 };

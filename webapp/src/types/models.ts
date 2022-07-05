@@ -8,4 +8,5 @@ export interface User {
   email: string;
   password?: string;
   role: UserRole;
+  email_verified_at?: Date;
 }

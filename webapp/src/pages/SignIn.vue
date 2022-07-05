@@ -1,8 +1,10 @@
 <template>
   <v-container fluid>
     <v-card
+      tag="form"
       class="mx-auto"
       max-width="500"
+      @submit.prevent="onSubmit"
     >
       <v-row>
         <v-col justify="space-between">
@@ -14,23 +16,25 @@
               <h1>Sign In</h1>
             </div>
             <v-text-field
+              v-model="fields.email"
               label="Email"
               type="email"
               :rules="emailRules"
               required
             />
             <v-text-field
+              v-model="fields.password"
               label="Password"
               type="password"
               :rules="[v => !!v || 'Password harus di isi']"
               required
             />
             <v-checkbox
-              v-model="checkbox"
+              v-model="fields.remember"
               label="Tetap Masuk"
             />
             <v-btn
-              :to="{name: 'SignIn'}"
+              type="submit"
               color="primary"
             >
               Sign In
@@ -51,18 +55,30 @@
     </v-card>
   </v-container>
 </template>
-<script>
-export default {
-  data: () => ({
-    email: '',
-    emailRules: [
-      (v) => !!v || 'Harap isi E-mail Anda',
-      (v) => /.+@.+\..+/.test(v) || 'E-mail harus valid',
-    ],
-    checkbox: false,
-  }),
-};
+
+<script setup>
+import { reactive } from 'vue';
+import { useAuthStore } from '../stores/auth';
+import { catchErrorAsNotificationFn } from '../utils/ui';
+
+const auth = useAuthStore();
+const fields = reactive({
+  email: '',
+  password: '',
+  remember: false,
+});
+const emailRules = [
+  (v) => !!v || 'Harap isi E-mail Anda',
+  (v) => /.+@.+\..+/.test(v) || 'E-mail harus valid',
+];
+const onSubmit = catchErrorAsNotificationFn(async () => auth
+  .signIn({
+    email: fields.email,
+    password: fields.password,
+  }, fields.remember));
+
 </script>
+
 <style>
 .header {
   text-align: center;

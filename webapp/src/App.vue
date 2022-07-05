@@ -62,7 +62,10 @@
         <v-spacer />
       </v-list>
 
-      <template #append>
+      <template
+        v-if="!auth.isMember"
+        #append
+      >
         <div class="pa-2">
           <v-btn
             prepend-icon="mdi-circle"
@@ -85,7 +88,14 @@
         icon
         @click="rightDrawerIsOpen = !rightDrawerIsOpen"
       >
-        <v-avatar>AN</v-avatar>
+        <v-avatar v-if="auth.isMember">
+          {{ userAvatarName }}
+        </v-avatar>
+        <v-avatar
+          v-else
+          icon="mdi-account"
+          color="surface-variant"
+        />
       </v-btn>
     </v-app-bar>
 
@@ -94,30 +104,32 @@
       location="right"
       temporary
     >
-      <v-list>
-        <v-list-item
-          title="Alwan Nuha"
-          subtitle="me@anhzf.dev"
-        >
-          <template #prepend>
-            <v-list-item-avatar start>
-              AN
-            </v-list-item-avatar>
-          </template>
-        </v-list-item>
-      </v-list>
+      <template v-if="auth.isMember">
+        <v-list>
+          <v-list-item
+            :title="auth.user!.name"
+            :subtitle="auth.user!.email"
+          >
+            <template #prepend>
+              <v-list-item-avatar start>
+                {{ userAvatarName }}
+              </v-list-item-avatar>
+            </template>
+          </v-list-item>
+        </v-list>
 
-      <v-divider />
+        <v-divider />
 
-      <v-list nav>
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Keluar"
-          @click="onLogoutClick"
-        />
-      </v-list>
+        <v-list nav>
+          <v-list-item
+            prepend-icon="mdi-circle"
+            title="Keluar"
+            @click="onLogoutClick"
+          />
+        </v-list>
 
-      <v-divider />
+        <v-divider />
+      </template>
 
       <v-list nav>
         <v-list-item
@@ -163,24 +175,45 @@
         />
       </div>
     </v-main>
+
+    <v-overlay
+      :model-value="!auth.isReady"
+      class="align-center justify-center"
+    >
+      <v-progress-circular
+        indeterminate
+        size="64"
+        color="primary"
+      />
+    </v-overlay>
   </v-app>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useDark } from '@vueuse/core';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from './stores/auth';
 import useNotificationAlerts from './stores/notificationAlerts';
 import useProgressBarStore from './stores/progressBar';
+import { useTranslations } from './lang';
 import { notify } from './utils/ui';
 import type { AnyTypedFn } from './utils/types';
 
 const isDark = useDark();
 const { notifications } = useNotificationAlerts();
 const progressBarStore = useProgressBarStore();
+const { load } = useTranslations();
+const auth = useAuthStore();
+const router = useRouter();
 const leftDrawerIsOpen = ref(true);
 const rightDrawerIsOpen = ref(false);
+const userAvatarName = computed(() => auth.user?.name.split(' ').map((w) => w.at(0)).slice(0, 2).join('')
+  .toUpperCase());
 
-const closeOnRightDrawerItemClick = <R = void, T = [], Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(handler: Fn) => (async (...args: T[]) => {
+load();
+
+const closeOnRightDrawerItemClick = <T, R = void, Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(handler: Fn) => (async (...args: T[]) => {
   const r = await Promise.resolve(handler(...args));
   if (rightDrawerIsOpen.value) {
     rightDrawerIsOpen.value = false;
@@ -188,9 +221,11 @@ const closeOnRightDrawerItemClick = <R = void, T = [], Fn extends AnyTypedFn<R, 
   return r;
 });
 
-const onLogoutClick = closeOnRightDrawerItemClick(() => notify({
-  message: 'Logged out!', type: 'success',
-}));
+const onLogoutClick = closeOnRightDrawerItemClick(async () => {
+  await auth.signOut();
+  router.push({ name: 'SignIn' });
+  notify.success('Logged out!');
+});
 </script>
 
 <style lang="sass">
