@@ -33,15 +33,23 @@ class DatabaseSeeder extends Seeder
     /** @var User */
     $userAdmin = User::factory()->create([
       'name' => 'Admin',
-      'email' => 'me@anhzf.dev',
+      'email' => env('APP_ADMIN_EMAIL'),
       'role' => 'admin',
+      'verified_by_id' => null,
+      'is_internal' => true,
+      'is_internal_verified_at' => null,
+      'is_internal_verified_by_id' => null,
     ]);
 
-    $userAdmin
-      ->addMediaFromUrl('https://lh3.googleusercontent.com/a-/AOh14GiRwRAaixzKCat8PsljUIdjoUwJywYXmtoI9zB8Lw=s360-p-rw-no')
-      ->toMediaCollection();
+    $users = User::factory()->count(10)->hasAdmin($userAdmin)->create();
 
-    $users = User::factory()->count(10)->create();
+    $userAdmin
+      ->addMediaFromUrl('https://picsum.photos/200.jpg')
+      ->toMediaCollection('avatar');
+
+    $users->each(fn (User $user) => $user
+      ->addMediaFromUrl('https://picsum.photos/200.jpg')
+      ->toMediaCollection('avatar'));
 
     /* Seed the rooms */
     /** @var Room */

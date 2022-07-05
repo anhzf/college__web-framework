@@ -38,7 +38,7 @@ class RoomController extends APIController
    */
   public function show(Room $room)
   {
-    return $room->load(['addedBy', 'prices', 'media']);
+    return $room->load(['addedBy', 'prices'])->makeHidden('media');
   }
 
   /**

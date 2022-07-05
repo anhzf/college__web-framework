@@ -8,3 +8,12 @@ env_variables:
   APP_ENV: production
   APP_DEBUG: false
 
+  # Please set DB environment variables in .env files
+
+  CACHE_DRIVER: database
+  FILESYSTEM_DISK: gcs
+  SESSION_DRIVER: database
+
+  MEDIA_DISK: gcs
+  MEDIA_PREFIX: user-contents
+

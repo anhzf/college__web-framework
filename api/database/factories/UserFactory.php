@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,17 +18,12 @@ class UserFactory extends Factory
    */
   public function definition()
   {
-    $isInternal = $this->faker->boolean(70);
     return [
       'name' => $this->faker->name(),
       'email' => $this->faker->unique()->safeEmail(),
-      'email_verified_at' => now(),
-      'verified_by_id' => $this->faker->boolean(60) ? null : 1,
       'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
       'remember_token' => Str::random(10),
-      'is_internal' => $isInternal,
-      'is_internal_verified_at' => $isInternal ? now() : null,
-      'is_internal_verified_by_id' => $isInternal ? 1 : null,
+      'email_verified_at' => $this->faker->boolean(60) ? now() : null,
     ];
   }
 
@@ -41,6 +37,20 @@ class UserFactory extends Factory
     return $this->state(function (array $attributes) {
       return [
         'email_verified_at' => null,
+      ];
+    });
+  }
+
+  public function hasAdmin(User $admin)
+  {
+    return $this->state(function (array $attributes) use ($admin) {
+      $isInternal = $this->faker->boolean(70);
+
+      return [
+        'verified_by_id' => $attributes['email_verified_at'] !== null ? null : $admin->getKey(),
+        'is_internal' => $isInternal,
+        'is_internal_verified_at' => $isInternal ? now() : null,
+        'is_internal_verified_by_id' => $isInternal ? $admin->getKey() : null,
       ];
     });
   }
