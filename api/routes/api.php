@@ -18,6 +18,7 @@ Route::get('/', fn () => response()->json('ready!'));
 Route::post('/signin', [AuthController::class, 'signIn']);
 Route::post('/signup', [AuthController::class, 'signUp']);
 Route::get('/signout', [AuthController::class, 'signOut']);
+Route::get('/authenticate', [AuthController::class, 'authenticate']);
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user', [AuthController::class, 'whoami']);

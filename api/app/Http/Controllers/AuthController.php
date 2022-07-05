@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Enums\APIMessage;
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -18,6 +19,13 @@ class AuthController extends APIController
     return $this->send($user);
   }
 
+  public function authenticate()
+  {
+    if (!Auth::check()) {
+      throw new AuthenticationException();
+    }
+  }
+
   public function signIn(Request $request)
   {
     $credential = $request->validate([
@@ -25,7 +33,7 @@ class AuthController extends APIController
       'password' => 'required',
     ]);
 
-    if (Auth::attempt($credential)) {
+    if (Auth::guard('web')->attempt($credential)) {
       /** @var \App\Models\User */
       $user = Auth::user();
       $token = $user->createToken('authToken')->plainTextToken;

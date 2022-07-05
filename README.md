@@ -34,11 +34,13 @@ Aplikasi manajemen peminjaman fasilitas dan ruangan.
    ```bash
    npm install
    ```
-3. Jalankan development server!
+   *Jalankan command ini setiap ada perubahan file `package.json`
+3. Copy file `.env.example` menjadi `.env`, kemudian isikan konfigurasi sesuai yang dimiliki.
+4. Jalankan development server!
    ```
    npm run dev
    ```
-4. Happy develop!
+5. Happy develop!
 
 ### Useful Link
 - https://vuejs.org/
@@ -46,8 +48,29 @@ Aplikasi manajemen peminjaman fasilitas dan ruangan.
 
 
 ## Develop API
-soon!
 
+### Requirements
+- [PHP](https://php.net/)
+- [MySQL Database](https://www.mysql.com/)
+- [Composer](https://getcomposer.org/)
+
+### Petunjuk
+1. Setelah [clone repository](#clone-repository) arahkan terminal ke folder `./api`.
+2. Instal dependensi yang dibutuhkan.
+   ```bash
+   composer install
+   ```
+3. Copy file `.env.example` menjadi `.env`, kemudian isikan konfigurasi sesuai yang dimiliki. (Terutama pada bagian `DB_`).
+4. Jalankan command berikut secara berurutan:
+   ```bash
+   php artisan key:generate
+   php artisan migrate --seed
+   ```
+5. Jalankan development server!
+   ```bash
+   php artisan serve
+   ```
+6. Happy develop!
 
 ## Tentang Kami
 Aplikasi ini dibuat untuk keperluan tugas UAS kuliah.
