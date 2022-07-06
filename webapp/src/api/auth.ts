@@ -24,6 +24,7 @@ const revokeToken = () => {
   sessionStorage.removeItem(TOKEN_STORAGE_KEY);
   localStorage.removeItem(TOKEN_STORAGE_KEY);
 };
+const hasToken = () => !!getToken();
 
 interface SignInPayload {
   email: string;
@@ -70,12 +71,15 @@ const authenticate = async () => {
   await http.get(Endpoint.Authenticate);
 };
 
+setToken();
+
 export {
   signIn,
   signUp,
   signOut,
   authenticate,
   revokeToken,
+  hasToken,
 };
 
 export type {

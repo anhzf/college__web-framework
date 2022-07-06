@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { readonly, ref } from 'vue';
 import { nanoid } from 'nanoid';
+import __ from '../lang';
 
 const NOTIFICATION_DEFAULT_TIMEOUT = 10000; // ms
 
@@ -49,9 +50,9 @@ const useNotificationAlertsStore = defineStore('notificationAlerts', () => {
       // Props are used to pass data to the notification component
       get props() {
         return {
-          text: this.opts.message,
+          text: __(this.opts.message),
           modelValue: this.modelValue,
-          title: this.opts.title,
+          title: __(this.opts.title),
           color: this.opts.type || this.opts.color,
           class: {
             'self-stretch': this.opts.stretch,

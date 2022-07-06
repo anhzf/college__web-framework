@@ -1,7 +1,7 @@
 /* eslint-disable quote-props */
 
 const id: Record<string, string> = {
-  'something went wrong': 'terjadi kesalahan',
+  'something went wrong': 'Terjadi kesalahan',
   'already logged in': 'Anda sudah masuk',
   'logged in': 'Berhasil masuk',
   'logged out': 'Berhasil keluar',

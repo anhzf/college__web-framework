@@ -36,8 +36,8 @@ const errorAsNotification = (e: Error, opts: Partial<NotificationOptions> = {}) 
   const message = ((e as any)?.message || e.toString());
 
   return notify.error({
-    title: __(title),
-    message: __(message),
+    title,
+    message,
     timeout: ERROR_NOTIFICATION_DEFAULT_TIMEOUT,
     ...opts,
   });

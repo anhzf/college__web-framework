@@ -59,7 +59,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { useAuthStore } from '../stores/auth';
-import { catchErrorAsNotificationFn, notify } from '../utils/ui';
+import { catchErrorAsNotificationFn, notify, silentNextErrorNotifcation } from '../utils/ui';
 import __ from '../lang';
 
 const auth = useAuthStore();
@@ -72,12 +72,14 @@ const emailRules = [
   (v: string) => !!v || 'Harap isi E-mail Anda',
   (v: string) => /.+@.+\..+/.test(v) || 'E-mail harus valid',
 ];
-const onSubmit = catchErrorAsNotificationFn(async () => auth
-  .signIn({
+const onSubmit = catchErrorAsNotificationFn(async () => {
+  silentNextErrorNotifcation();
+  await auth.signIn({
     email: fields.email,
     password: fields.password,
   }, fields.remember)
-  .then(() => notify.success(__('logged in'))));
+    .then(() => notify.success(__('logged in')));
+});
 
 </script>
 
