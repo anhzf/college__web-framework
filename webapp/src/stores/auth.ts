@@ -27,8 +27,8 @@ export const useAuthStore = defineStore('auth', () => {
     return true;
   }, false);
 
-  const signIn = async (payload: auth.SignInPayload) => {
-    user.value = await auth.signIn(payload);
+  const signIn = async (payload: auth.SignInPayload, remember = false) => {
+    user.value = await auth.signIn(payload, remember);
   };
   const signOut = () => {
     auth.signOut();

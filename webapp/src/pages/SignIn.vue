@@ -56,11 +56,11 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { catchErrorAsNotificationFn, notify } from '../utils/ui';
-import { __ } from '../lang';
+import __ from '../lang';
 
 const auth = useAuthStore();
 const fields = reactive({
@@ -69,8 +69,8 @@ const fields = reactive({
   remember: false,
 });
 const emailRules = [
-  (v) => !!v || 'Harap isi E-mail Anda',
-  (v) => /.+@.+\..+/.test(v) || 'E-mail harus valid',
+  (v: string) => !!v || 'Harap isi E-mail Anda',
+  (v: string) => /.+@.+\..+/.test(v) || 'E-mail harus valid',
 ];
 const onSubmit = catchErrorAsNotificationFn(async () => auth
   .signIn({

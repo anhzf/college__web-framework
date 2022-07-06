@@ -72,7 +72,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="room in roomList"
+              v-for="room in normalizedList"
               :key="room.id"
             >
               <td>{{ room.roomName }}</td>
@@ -101,10 +101,12 @@
 
 <script lang="ts" setup>
 import { Temporal } from '@js-temporal/polyfill';
-import { nanoid } from 'nanoid';
+import { useAsyncState } from '@vueuse/core';
+import { computed } from 'vue';
+import { roomReservations } from '../api';
 import QueryChip from '../components/QueryChip.vue';
 
-interface RoomReservation {
+interface NormalizedRoomReservation {
   id: string;
   roomName: string;
   eventDescription: string;
@@ -113,39 +115,22 @@ interface RoomReservation {
   reservedTime: number;
 }
 
-const isOnProgress = (reservation: RoomReservation) => {
+const { state: list } = useAsyncState(roomReservations.all(), []);
+const normalizedList = computed(() => list.value.map((el) => ({
+  id: el.id.toString(),
+  roomName: `${el.reservable_type}:${el.reservable_id}`,
+  eventDescription: el.description_short,
+  responsible: el.user_id.toString(),
+  reservedDate: new Date(el.start),
+  reservedTime: el.long === null ? 1 : el.long / 60,
+}) as NormalizedRoomReservation));
+
+const isOnProgress = (reservation: NormalizedRoomReservation) => {
   const now = Temporal.Now.instant();
   const start = reservation.reservedDate.toTemporalInstant();
   const end = start.add({ hours: reservation.reservedTime });
   return Temporal.Instant.compare(now, start) >= 0 && Temporal.Instant.compare(now, end) <= 0;
 };
-
-const roomList: RoomReservation[] = [
-  {
-    id: nanoid(),
-    roomName: 'Software Engineering',
-    eventDescription: 'Kuliah Praktikum',
-    responsible: 'Rosihan Ari S.Pd',
-    reservedDate: new Date('2022-01-01T09:00:00'),
-    reservedTime: 2,
-  },
-  {
-    id: nanoid(),
-    roomName: 'Network Admin',
-    eventDescription: 'Kuliah Praktikum',
-    responsible: 'Puspanda Hatta S.Pd',
-    reservedDate: new Date('2022-05-01T09:00:00'),
-    reservedTime: 3,
-  },
-  {
-    id: nanoid(),
-    roomName: 'Multimedia',
-    eventDescription: 'Workshop HMP Mikroptik',
-    responsible: 'Krisna Murti',
-    reservedDate: new Date('2022-06-18T20:00:00'),
-    reservedTime: 6,
-  },
-];
 </script>
 
 <style lang="sass">
