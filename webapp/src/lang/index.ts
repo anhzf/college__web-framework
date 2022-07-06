@@ -32,7 +32,6 @@ const __ = (key: string, locale = LOCALE_DEFAULT) => {
     || tr.repository[locale]?.[key.toUpperCase()]
     || key);
 
-  debugger;
   return translation.value;
 };
 
