@@ -33,8 +33,9 @@ class DatabaseSeeder extends Seeder
     /** @var User */
     $userAdmin = User::factory()->create([
       'name' => 'Admin',
-      'email' => env('APP_ADMIN_EMAIL'),
+      'email' => env('APP_ADMIN_EMAIL', 'admin@e-nyileh.com'),
       'role' => 'admin',
+      'email_verified_at' => now(),
       'verified_by_id' => null,
       'is_internal' => true,
       'is_internal_verified_at' => null,
