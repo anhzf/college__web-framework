@@ -1,11 +1,51 @@
 <template>
   <v-container fluid>
-    <v-row justify="space-between">
-      <v-col>
-        <h1>Pengaturan</h1>
-      </v-col>
-    </v-row>
-    <v-row>
+    <v-col>
+      <h2>Pengaturan</h2>
+    </v-col>
+    <v-list
+      lines="three"
+      select-strategy="multiple"
+      max-width="400"
+    >
+      <v-list-subheader>Edit profile</v-list-subheader>
+      <v-form
+        ref="form"
+        lazy-validation
+      >
+        <v-col
+          cols="auto"
+          sm="10"
+        >
+          <v-text-field
+            label="Nama Lengkap"
+            :rules="nameRules"
+            required
+          />
+          <v-text-field
+            label="Username"
+          />
+          <v-text-field
+            label="Email"
+            disabled
+          />
+          <v-text-field
+            v-model="password"
+            label="Password Baru"
+            type="password"
+            :rules="[v => !!v || 'Password harus di isi']"
+            required
+          />
+          <v-btn
+            :to="{name:''}"
+            color="primary"
+          >
+            SIMPAN
+          </v-btn>
+        </v-col>
+      </v-form>
+    </v-list>
+    <!-- <v-row>
       <v-card
         class="container"
         max-width="500"
@@ -24,12 +64,23 @@
           </div>
         </v-card-text>
       </v-card>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
+<script>
+export default {
+  data: () => ({
+    valid: true,
+    name: '',
+    nameRules: [
+      (v) => !!v || 'Harap isi nama Anda',
+    ],
+  }),
+};
+</script>
 <style>
 .container {
-  margin: 10px;
-  padding: 10px;
+  margin: 20px;
+  padding: 20px;
 }
 </style>
