@@ -63,7 +63,7 @@
       </v-list>
 
       <template
-        v-if="!auth.isMember"
+        v-if="!auth.user"
         #append
       >
         <div class="pa-2">
@@ -88,7 +88,7 @@
         icon
         @click="rightDrawerIsOpen = !rightDrawerIsOpen"
       >
-        <v-avatar v-if="auth.isMember">
+        <v-avatar v-if="auth.user">
           {{ userAvatarName }}
         </v-avatar>
         <v-avatar
@@ -104,11 +104,11 @@
       location="right"
       temporary
     >
-      <template v-if="auth.isMember">
+      <template v-if="auth.user">
         <v-list>
           <v-list-item
-            :title="auth.user!.name"
-            :subtitle="auth.user!.email"
+            :title="auth.user.name"
+            :subtitle="auth.user.email"
           >
             <template #prepend>
               <v-list-item-avatar start>
@@ -125,6 +125,20 @@
             prepend-icon="mdi-circle"
             title="Keluar"
             @click="onLogoutClick"
+          />
+        </v-list>
+
+        <v-divider />
+      </template>
+
+      <template v-else>
+        <v-list nav>
+          <v-list-item
+            prepend-icon="mdi-login"
+            title="Masuk"
+            :to="{name: 'SignIn'}"
+            variant="tonal"
+            color="primary"
           />
         </v-list>
 

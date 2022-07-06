@@ -63,7 +63,7 @@ const catchErrorAsNotification = <T, R = void, Fn extends AnyTypedFn<R, T> = Any
       ? r.catch(errorAsNotification)
       : r) as R;
   } catch (e) {
-    debugger;
+    // debugger;
     return errorAsNotification(e as Error);
   }
 };

@@ -60,6 +60,7 @@
 import { reactive } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { catchErrorAsNotificationFn, notify } from '../utils/ui';
+import { __ } from '../lang';
 
 const auth = useAuthStore();
 const fields = reactive({
@@ -76,7 +77,7 @@ const onSubmit = catchErrorAsNotificationFn(async () => auth
     email: fields.email,
     password: fields.password,
   }, fields.remember)
-  .then(() => notify.success('logged in')));
+  .then(() => notify.success(__('logged in'))));
 
 </script>
 

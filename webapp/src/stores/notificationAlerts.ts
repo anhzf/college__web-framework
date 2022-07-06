@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { reactive, readonly, ref } from 'vue';
+import { readonly, ref } from 'vue';
 import { nanoid } from 'nanoid';
 
 const NOTIFICATION_DEFAULT_TIMEOUT = 10000; // ms
