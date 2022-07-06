@@ -104,6 +104,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Settings.vue'),
     meta: { guard: 'member' },
   },
+  {
+    path: '/settings/editprofile',
+    name: 'EditProfile',
+    component: () => import('../pages/EditProfile.vue'),
+  },
+  {
+    path: '/signin/forgetpassword',
+    name: 'ForgetPassword',
+    component: () => import('../pages/ForgetPassword.vue'),
+  },
 ];
 
 export default routes;

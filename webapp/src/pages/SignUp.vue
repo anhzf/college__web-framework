@@ -34,11 +34,14 @@
               <v-text-field
                 v-model="password"
                 label="Password"
+                type="password"
                 :rules="[v => !!v || 'Password harus di isi']"
                 required
               />
               <v-text-field
                 label="Tulis ulang Password"
+                type="password"
+                :rules="[v => !!v || 'Harus sama dengan password']"
                 required
               />
               <v-checkbox
