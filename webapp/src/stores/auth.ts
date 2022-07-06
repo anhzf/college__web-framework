@@ -1,6 +1,8 @@
-import { useAsyncState, watchOnce } from '@vueuse/core';
+import { useAsyncState } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import { computed, ref, watch } from 'vue';
+import {
+  computed, readonly, ref, watch,
+} from 'vue';
 import { useRouter } from 'vue-router';
 import { auth, users } from '../api';
 import routeGuardian from '../navigation-guards/auth/routeGuardian';
@@ -25,11 +27,11 @@ export const useAuthStore = defineStore('auth', () => {
       await auth.authenticate();
       await refresh();
     } catch (err) {
+      user.value = null;
       auth.revokeToken();
     }
     return true;
   }, false);
-  const router = useRouter();
 
   const signIn = async (payload: auth.SignInPayload) => {
     silentNextErrorNotifcation();
@@ -40,20 +42,24 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null;
   };
 
-  watch([user, () => router.currentRoute.value] as const, async ([currUser, currRoute]) => {
-    const redirect = await routeGuardian(currRoute);
+  watch(user, async () => {
+    const router = useRouter();
+    const currRoute = router?.currentRoute.value;
 
-    switch (redirect) {
-      case true:
-        break;
+    if (currRoute) {
+      const redirect = await routeGuardian(currRoute);
+      switch (redirect) {
+        case true:
+          break;
 
-      case false:
-        await router.push({ name: 'Home' });
-        break;
+        case false:
+          await router.push({ name: 'Home' });
+          break;
 
-      default:
-        await router.push(redirect);
-        break;
+        default:
+          await router.push(redirect);
+          break;
+      }
     }
   });
 
@@ -62,7 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
     isMember,
     isAdmin,
     isVerified,
-    isReady,
+    isReady: readonly(isReady),
     signIn,
     signOut,
     refresh,
