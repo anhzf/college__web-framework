@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, readonly, ref } from 'vue';
 
 const LOCALE_DEFAULT = 'id';
 
-const translations = import.meta.glob('./*.ts');
+const translationRepository = import.meta.glob('./*.ts');
 
 const useTranslations = defineStore('translation', () => {
   const repository = ref<Record<string, Record<string, string>>>({});
   const isReady = ref(false);
   const load = (locale = LOCALE_DEFAULT) => {
-    translations[`./${locale}.ts`]().then((translation) => {
+    translationRepository[`./${locale}.ts`]().then((translation) => {
       repository.value = {
         ...repository.value,
         [locale]: translation.default,
@@ -19,15 +19,20 @@ const useTranslations = defineStore('translation', () => {
   };
 
   return {
-    repository,
-    isReady,
+    repository: readonly(repository),
+    isReady: readonly(isReady),
     load,
   };
 });
 
 const __ = (key: string, locale = LOCALE_DEFAULT) => {
   const tr = useTranslations();
-  const translation = computed(() => tr.repository[locale]?.[key] || key);
+  const translation = computed(() => tr.repository[locale]?.[key]
+    || tr.repository[locale]?.[key.toLowerCase()]
+    || tr.repository[locale]?.[key.toUpperCase()]
+    || key);
+
+  debugger;
   return translation.value;
 };
 

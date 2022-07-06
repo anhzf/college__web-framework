@@ -1,5 +1,5 @@
 import http from '../utils/http';
-import type { APIResponse } from './types';
+import type { APIResponseBody } from './types';
 import type { User } from '../types/models';
 
 enum Endpoint {
@@ -9,8 +9,10 @@ enum Endpoint {
 type CurrentUserResponseData = User;
 
 const getCurrentUser = async () => {
-  const { data } = await http.get<null, APIResponse<CurrentUserResponseData>>(Endpoint.CurrentUser);
-  return data;
+  if (!http.defaults.headers.common.Authorization) return null;
+
+  const { data } = await http.get<APIResponseBody<CurrentUserResponseData>>(Endpoint.CurrentUser);
+  return data.data;
 };
 
 export {

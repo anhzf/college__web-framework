@@ -21,8 +21,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-void': 'off',
     'no-nested-ternary': 'off',
-    'no-shadow': 'off',
-    '@typescript-eslint/no-shadow': 'error',
     'max-classes-per-file': 'off',
 
     'import/first': 'off',
@@ -44,6 +42,9 @@ module.exports = {
 
     // Conflicting rules
     'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
 
     // Self preferences
     'max-len': ['warn', 150],

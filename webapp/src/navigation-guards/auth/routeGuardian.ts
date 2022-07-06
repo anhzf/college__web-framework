@@ -12,32 +12,44 @@ const parseGuard = (name: GuardName) => {
   return { role, severity } as ({role: Role, severity: Severity});
 };
 
+const throwUnathenticatedError = (msg?: string) => errorAsNotification(new UnathenticatedError(msg));
+const throwUnathorizedError = (msg?: string) => errorAsNotification(new UnathorizedError(msg));
+const throwUnverifiedError = (msg = 'email unverified') => errorAsNotification(new UnathorizedError(msg));
+
 const routeGuardian = async (to: RouteLocation) => {
   if (to.meta.guard) {
     const auth = useAuthStore();
 
     const { role, severity } = parseGuard(to.meta.guard);
 
-    if (severity === 'strict') {
-      await auth.refresh();
+    if (auth.user) {
+      if (severity === 'verified' && !auth.isVerified) {
+        throwUnverifiedError();
+        return false;
+      }
+
+      if (severity === 'internal' && !auth.isInternal) {
+        throwUnathorizedError();
+        return false;
+      }
     }
 
     if (role === 'admin' && !auth.isAdmin) {
       if (auth.isMember) {
-        errorAsNotification(new UnathorizedError('Anda bukan admin!'));
+        throwUnathorizedError();
         return false;
       }
-      errorAsNotification(new UnathenticatedError());
+      throwUnathenticatedError();
       return FAIL_FALLBACK_ROUTE.ADMIN;
     }
 
     if (role === 'member' && !auth.isMember) {
-      errorAsNotification(new UnathenticatedError());
+      throwUnathenticatedError('you must login first');
       return FAIL_FALLBACK_ROUTE.MEMBER;
     }
 
     if (role === 'guest' && auth.user) {
-      errorAsNotification(new Error('Anda telah masuk!'));
+      errorAsNotification(new Error('already logged in'));
       return FAIL_FALLBACK_ROUTE.GUEST;
     }
   }

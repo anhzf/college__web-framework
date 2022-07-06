@@ -1,6 +1,6 @@
 import http from '../utils/http';
 import type { User } from '../types/models';
-import type { APIResponse, APIResponseBody } from './types';
+import type { APIResponseBody } from './types';
 
 const TOKEN_STORAGE_KEY = 'auth-token';
 
@@ -54,7 +54,7 @@ interface SignUpResponseData {
 }
 
 const signUp = async (payload: SignInPayload) => {
-  const { data } = await http.post<SignUpPayload, APIResponse<SignUpResponseData>>(Endpoint.SignUp, payload);
+  const { data } = await http.post<APIResponseBody<SignUpResponseData>>(Endpoint.SignUp, payload);
   const { token } = data.data;
 
   setToken(token);

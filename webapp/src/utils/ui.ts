@@ -31,13 +31,13 @@ const errorAsNotification = (e: Error, opts: Partial<NotificationOptions> = {}) 
     return undefined;
   }
 
-  const title = (e instanceof AxiosError && __(e.response?.data.message))
-    || ((e as any)?.title || 'Uh-oh! Something went wrong!');
-  const message = (e as any)?.message || e.toString();
+  const title = ((e instanceof AxiosError && e.response?.data.message)
+    || ((e as any)?.title || `Uh-oh! ${__('something went wrong')}!`));
+  const message = ((e as any)?.message || e.toString());
 
   return notify.error({
-    title,
-    message,
+    title: __(title),
+    message: __(message),
     timeout: ERROR_NOTIFICATION_DEFAULT_TIMEOUT,
     ...opts,
   });

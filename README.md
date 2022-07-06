@@ -64,6 +64,7 @@ Aplikasi manajemen peminjaman fasilitas dan ruangan.
 4. Jalankan command berikut secara berurutan:
    ```bash
    php artisan key:generate
+   php artisan storage:link
    php artisan migrate --seed
    ```
 5. Jalankan development server!
