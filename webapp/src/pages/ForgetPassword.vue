@@ -10,6 +10,7 @@
           cols="auto"
           sm="12"
           justify="space-between"
+          class="container"
         >
           <div class="header">
             <h1>Lupa Password</h1>
@@ -21,6 +22,11 @@
             :rules="emailRules"
             required
           />
+          <v-btn
+            color="primary"
+          >
+            SIMPAN
+          </v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -28,6 +34,13 @@
 </template>
 
 <script setup>
+import { reactive } from 'vue';
+
+const fields = reactive({
+  email: '',
+  password: '',
+  remember: false,
+});
 
 const emailRules = [
   (v) => !!v || 'Harap isi E-mail Anda',
@@ -39,5 +52,8 @@ const emailRules = [
 .header {
   text-align: center;
   font-size: 15px;
+}
+.container {
+  padding: 30px;
 }
 </style>
