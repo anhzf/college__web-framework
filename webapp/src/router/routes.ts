@@ -110,11 +110,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Settings.vue'),
     meta: { guard: 'member' },
   },
-  {
-    path: '/settings/editpass',
-    name: 'EditPassword',
-    component: () => import('../pages/EditPassword.vue'),
-  },
 
 ];
 

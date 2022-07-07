@@ -41,25 +41,89 @@
             />
           </v-col>
         </v-row>
-        <v-row>
+        <v-row justify="center">
           <v-col cols="4">
             <v-subheader>Password</v-subheader>
           </v-col>
           <v-col cols="8">
-            <router-link to="/settings/editpass">
-              <v-btn
-                color="primary"
-              >
-                UBAH PASSWORD
-              </v-btn>
-            </router-link>
+            <v-dialog
+              v-model="dialog"
+              persistent
+            >
+              <template #activator="{ props }">
+                <v-btn
+                  color="primary"
+                  v-bind="props"
+                >
+                  UBAH PASSWORD
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">Ubah Password</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Password Lama*"
+                          type="password"
+                          required
+                        />
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Password Baru*"
+                          type="password"
+                          required
+                        />
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Ulangi Password Baru*"
+                          type="password"
+                          required
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="blue-darken-1"
+                    text
+                    @click="dialog = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                    color="blue-darken-1"
+                    text
+                    @click="dialog = false"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
       </v-list>
     </v-card>
   </v-container>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+};
+</script>
 <style>
 .container {
   margin: 20px;
