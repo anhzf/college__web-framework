@@ -2,55 +2,55 @@
   <v-container fluid>
     <v-card
       class="mx-auto"
-      max-width="500"
+      max-width="300"
     >
       <v-toolbar
         color="success"
         dark
       >
-        <v-icon>mdi-check</v-icon>
         <v-toolbar-title>
-          Terverifikasi
+          Ubah Password
         </v-toolbar-title>
       </v-toolbar>
       <v-list
         class="mx-auto container"
       >
         <v-row>
-          <v-col cols="4">
-            <v-subheader>Username</v-subheader>
-          </v-col>
-          <v-col cols="8">
+          <v-col cols="10">
             <v-text-field
               density="comfortable"
-              label="Username"
+              label="Password Lama"
               variant="underlined"
             />
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="4">
-            <v-subheader>Email</v-subheader>
-          </v-col>
-          <v-col cols="8">
+          <v-col cols="10">
             <v-text-field
               density="comfortable"
-              label="Email"
+              label="Password Baru"
               variant="underlined"
-              disabled
             />
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="4">
-            <v-subheader>Password</v-subheader>
+          <v-col cols="10">
+            <v-text-field
+              density="comfortable"
+              label="Ulangi Password Baru"
+              variant="underlined"
+            />
           </v-col>
-          <v-col cols="8">
-            <router-link to="/settings/editpass">
+        </v-row>
+        <v-row>
+          <v-col
+            cols="auto"
+          >
+            <router-link to="">
               <v-btn
                 color="primary"
               >
-                UBAH PASSWORD
+                SIMPAN
               </v-btn>
             </router-link>
           </v-col>

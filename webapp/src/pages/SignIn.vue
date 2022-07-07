@@ -45,7 +45,7 @@
               </router-link>
             </p>
             <p>
-              <router-link to="/signin/forgetpassword">
+              <router-link to="/signin/forgetpass">
                 Lupa Password?
               </router-link>
             </p>

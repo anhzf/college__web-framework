@@ -93,11 +93,17 @@ const routes: RouteRecordRaw[] = [
     meta: { guard: 'guest' },
   },
   {
+    path: '/signin/forgetpass',
+    name: 'ForgetPassword',
+    component: () => import('../pages/ForgetPassword.vue'),
+  },
+  {
     path: '/signup',
     name: 'SignUp',
     component: () => import('../pages/SignUp.vue'),
     meta: { guard: 'guest' },
   },
+
   {
     path: '/settings',
     name: 'Settings',
@@ -105,15 +111,11 @@ const routes: RouteRecordRaw[] = [
     meta: { guard: 'member' },
   },
   {
-    path: '/settings/editprofile',
-    name: 'EditProfile',
-    component: () => import('../pages/EditProfile.vue'),
+    path: '/settings/editpass',
+    name: 'EditPassword',
+    component: () => import('../pages/EditPassword.vue'),
   },
-  {
-    path: '/signin/forgetpassword',
-    name: 'ForgetPassword',
-    component: () => import('../pages/ForgetPassword.vue'),
-  },
+
 ];
 
 export default routes;

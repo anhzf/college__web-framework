@@ -21,12 +21,6 @@
             :rules="emailRules"
             required
           />
-          <v-btn
-            type="submit"
-            color="primary"
-          >
-            Sign In
-          </v-btn>
         </v-col>
       </v-row>
     </v-card>
