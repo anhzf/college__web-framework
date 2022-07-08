@@ -5,11 +5,11 @@ import {
 } from 'vue';
 import { auth, users } from '../api';
 import routeGuardian from '../navigation-guards/auth/routeGuardian';
-import type { User } from '../types/models';
+import type { UserDetails } from '../types/models';
 import router from '../router';
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>();
+  const user = ref<UserDetails | null>();
   const isVerified = computed(() => user.value?.email_verified_at);
   const isInternal = computed(() => user.value?.is_internal);
   const isMember = computed(() => isVerified.value && ['member', 'admin'].includes(user.value?.role || ''));

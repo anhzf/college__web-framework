@@ -76,7 +76,15 @@
               :key="room.id"
             >
               <td>{{ room.roomName }}</td>
-              <td>{{ room.eventDescription }}</td>
+              <td>
+                <router-link
+                  :to="{name: 'RoomReservation_View', params: {roomId: room.id}}"
+                  :title="__('View details')"
+                  class="[&:-webkit-any-link]:text-inherit [&:-webkit-any-link]:hover:text-[rgb(var(--v-theme-primary))]"
+                >
+                  {{ room.eventDescription }}
+                </router-link>
+              </td>
               <td>{{ room.responsible }}</td>
               <td class="room-reservation-datetime">
                 <span>{{ room.reservedDate.toLocaleString() }}</span>
@@ -115,12 +123,17 @@ interface NormalizedRoomReservation {
   reservedTime: number;
 }
 
-const { state: list } = useAsyncState(roomReservations.all(), []);
+const getRoomReservations = async () => {
+  const { data } = await roomReservations.all();
+  return data;
+};
+
+const { state: list } = useAsyncState(getRoomReservations(), []);
 const normalizedList = computed(() => list.value.map((el) => ({
   id: el.id.toString(),
-  roomName: `${el.reservable_type}:${el.reservable_id}`,
+  roomName: el.reservable.name,
   eventDescription: el.description_short,
-  responsible: el.user_id.toString(),
+  responsible: el.user.name,
   reservedDate: new Date(el.start),
   reservedTime: el.long === null ? 1 : el.long / 60,
 }) as NormalizedRoomReservation));

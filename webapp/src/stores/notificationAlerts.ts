@@ -50,9 +50,9 @@ const useNotificationAlertsStore = defineStore('notificationAlerts', () => {
       // Props are used to pass data to the notification component
       get props() {
         return {
-          text: __(this.opts.message),
+          title: this.opts.title && __(this.opts.title),
+          text: this.opts.message && __(this.opts.message),
           modelValue: this.modelValue,
-          title: __(this.opts.title),
           color: this.opts.type || this.opts.color,
           class: {
             'self-stretch': this.opts.stretch,

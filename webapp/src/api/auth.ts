@@ -1,5 +1,5 @@
 import http from '../utils/http';
-import type { User } from '../types/models';
+import type { UserDetails } from '../types/models';
 import type { APIResponseBody } from './types';
 
 const TOKEN_STORAGE_KEY = 'auth-token';
@@ -32,7 +32,7 @@ interface SignInPayload {
 }
 
 interface SignInResponseData {
-  user: User;
+  user: UserDetails;
   token: string;
 }
 

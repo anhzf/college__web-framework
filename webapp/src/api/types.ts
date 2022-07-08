@@ -3,6 +3,10 @@ export interface APIResponseBody<T> {
   message: string | null;
 }
 
+export interface ResourceChangeAPIResponseBody extends APIResponseBody<{id: string}> {
+  errors: Record<string, string[]>;
+}
+
 export interface PaginationLink {
   url: string | null;
   label: string;
@@ -25,8 +29,6 @@ export interface Pagination<T> {
   total: number;
 }
 
-export const getMode = ['slim', 'default', 'paginate'] as const;
-
-export type GetMode = typeof getMode[number];
+export type Paginate<T> = Pagination<T> | T[];
 
 export type ColsParams<T> = (keyof T)[];

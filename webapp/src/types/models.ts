@@ -6,6 +6,21 @@ export type APIRaw<T> = {
       : T[k]));
 }
 
+export type Timestamps = {
+  created_at: Date;
+  updated_at: Date;
+}
+
+export type TimestampsRaw = {
+  created_at: string;
+  updated_at: string;
+}
+
+export type WithTimestampsRaw<T extends Timestamps> = Omit<T, 'created_at' | 'updated_at'> & {
+  created_at: string;
+  updated_at: string;
+};
+
 export const UserRoles = ['member', 'admin'] as const;
 
 export type UserRole = typeof UserRoles[number];
@@ -13,41 +28,106 @@ export type UserRole = typeof UserRoles[number];
 export interface User {
   id: number;
   name: string;
-  email: string;
-  password?: string;
-  role: UserRole;
-  email_verified_at?: Date;
-  is_internal: boolean;
 }
+
+export interface UserRaw extends User {}
+
+export interface UserDetails extends User {
+  email: string;
+  role: UserRole;
+  email_verified_at: Date | null;
+  verified_by_id: number | null;
+  is_internal: boolean;
+  is_internal_verified_by_id: number | null;
+  is_internal_verified_at: Date | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface UserDetailsRaw extends Omit<WithTimestampsRaw<UserDetails>, 'email_verified_at' | 'is_internal_verified_at'> {
+  email_verified_at: string | null;
+  is_internal_verified_at: string | null;
+}
+
+export interface Price {
+  id: string;
+  label: string;
+  price_start: number;
+  price_per_hour: number | null;
+}
+
+export interface PriceRaw extends Price {}
+
+export interface PriceDetails extends Price {
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface PriceDetailsRaw extends WithTimestampsRaw<PriceDetails> {}
 
 export interface Room {
   id: number;
   name: string;
-  description: string | null;
   photos: string[];
-  added_by: {
-    id: number;
-    name: string;
-  };
 }
 
-export const RoomReservationStatuses = ['pending', 'approved', 'rejected', 'cancelled'] as const;
+export interface RoomRaw extends Room {}
 
-export type RoomReservationStatus = typeof RoomReservationStatuses[number];
-
-export interface RoomReservation {
-  id: number;
-  start: Date;
-  reservable_type: string;
-  reservable_id: number;
-  long: number | null;
-  qty: number | null;
-  description_short: string;
+export interface RoomDetails extends Room {
   description: string | null;
-  user_id: number;
-  status: RoomReservationStatus;
-  approval_assigned_by_id: number | null;
-  approval_assigned_at: Date | null;
+  added_by: User;
+  prices: Price[];
   created_at: Date;
   updated_at: Date;
 }
+
+export interface RoomDetailsRaw extends WithTimestampsRaw<RoomDetails> {}
+
+export const ReservationStatuses = ['pending', 'approved', 'rejected', 'cancelled'] as const;
+
+export type ReservationStatus = typeof ReservationStatuses[number];
+
+export interface Reservable {
+  id: number | string;
+  name: string;
+}
+
+export interface ReservableRaw extends Reservable {}
+
+export interface Reservation<TReservable extends Reservable> {
+  id: number;
+  start: Date;
+  long: number | null;
+  qty: number | null;
+  description_short: string;
+  status: ReservationStatus;
+  reservable: TReservable;
+  user: User;
+}
+
+export interface ReservationRaw<TReservable extends ReservableRaw> extends Omit<Reservation<TReservable>, 'start'> {
+  start: string;
+  user: UserRaw;
+}
+
+export interface ReservationDetails<TReservable extends Reservable> extends Reservation<TReservable> {
+  description: string | null;
+  user: User;
+  approval_assignee: User | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface ReservationDetailsRaw<TReservable extends ReservableRaw> extends WithTimestampsRaw<Omit<ReservationDetails<TReservable>, 'start'>> {
+  start: string;
+  user: UserRaw;
+  approval_assignee: UserRaw | null;
+}
+
+export interface RoomReservation extends Reservation<Pick<Room, 'id' | 'name'>> {}
+
+export interface RoomReservationRaw extends ReservationRaw<Pick<Room, 'id' | 'name'>> {}
+
+export interface RoomReservationDetails extends ReservationDetails<Pick<Room, 'id' | 'name'>> {}
+
+export interface RoomReservationDetailsRaw extends ReservationDetailsRaw<Pick<Room, 'id' | 'name'>> {}

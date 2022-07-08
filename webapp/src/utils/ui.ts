@@ -1,3 +1,4 @@
+import { isObject } from '@vueuse/core';
 import { AxiosError } from 'axios';
 import __ from '../lang';
 import useNotificationAlertsStore, { NotificationOptions } from '../stores/notificationAlerts';
@@ -35,6 +36,15 @@ const errorAsNotification = (e: Error, opts: Partial<NotificationOptions> = {}) 
     || ((e as any)?.title || `Uh-oh! ${__('something went wrong')}!`));
   const message = ((e as any)?.message || e.toString());
 
+  if (e instanceof AxiosError && isObject(e.response?.data.errors)) {
+    return (Object.entries(e.response?.data.errors as Record<string, string[]>)).forEach(([key, value]) => {
+      notify.error({
+        title: `ValidationError: ${key}`,
+        message: value.join('; '),
+      });
+    });
+  }
+
   return notify.error({
     title,
     message,
@@ -47,7 +57,7 @@ const silentNextErrorNotifcation = () => {
   nextErrorIsSilent = true;
 };
 
-const catchErrorAsNotification = <T, R = void, Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(fn: Fn) => {
+const catchErrorAsNotification = <R = void | Promise<void>>(fn: AnyTypedFn<R, []>) => {
   try {
     const r = fn();
     // return (r instanceof Promise
@@ -68,7 +78,7 @@ const catchErrorAsNotification = <T, R = void, Fn extends AnyTypedFn<R, T> = Any
   }
 };
 
-const catchErrorAsNotificationFn = <T, R = void, Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(fn: Fn) => (...args: T[]) => (
+const catchErrorAsNotificationFn = <T extends [] = [], R = void>(fn: AnyTypedFn<R, T>) => (...args: T) => (
   catchErrorAsNotification(() => fn(...args))
 );
 

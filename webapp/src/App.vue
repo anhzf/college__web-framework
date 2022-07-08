@@ -227,7 +227,7 @@ const userAvatarName = computed(() => auth.user?.name.split(' ').map((w) => w.at
 
 load();
 
-const closeOnRightDrawerItemClick = <T, R = void, Fn extends AnyTypedFn<R, T> = AnyTypedFn<R, T>>(handler: Fn) => (async (...args: T[]) => {
+const closeOnRightDrawerItemClick = <T extends [] = [], R = void>(handler: AnyTypedFn<R, T>) => (async (...args: T) => {
   const r = await Promise.resolve(handler(...args));
   if (rightDrawerIsOpen.value) {
     rightDrawerIsOpen.value = false;

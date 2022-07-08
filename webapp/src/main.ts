@@ -7,13 +7,17 @@ import 'tailwindcss/utilities.css';
 import router from './router';
 import pinia from './stores';
 import './utils/hijack-ajax';
+import __ from './lang';
 
 loadFonts();
 
 const app = createApp(App)
   .use(vuetify)
   .use(router)
-  .use(pinia);
+  .use(pinia)
+  .use((ctx) => {
+    ctx.config.globalProperties.__ = __;
+  });
 
 router.isReady().then(() => {
   app.mount('#app');

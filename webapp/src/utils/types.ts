@@ -1,1 +1,1 @@
-export type AnyTypedFn<Return, Params> = (...params: Params[]) => Return;
+export type AnyTypedFn<Return, Params extends [] = []> = (...params: Params) => Return;

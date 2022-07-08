@@ -45,6 +45,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    'no-undef': 'off', // Let typescript handle this
 
     // Self preferences
     'max-len': ['warn', 150],
