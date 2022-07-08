@@ -28,12 +28,7 @@ class Room extends Model implements HasMedia
 
   protected $guarded = [];
 
-  /**
-   * The accessors to append to the model's array form.
-   *
-   * @var array
-   */
-  protected $appends = ['photos'];
+  protected $hidden = ['media'];
 
   protected function photos(): Attribute
   {

@@ -35,6 +35,7 @@ Route::apiResources([
   'facilities' => \App\Http\Controllers\FacilityController::class,
   // 'files' => \App\Http\Controllers\FileController::class,
   'reservable-prices' => \App\Http\Controllers\ReservablePriceController::class,
+  'reservations/rooms' => \App\Http\Controllers\RoomReservationController::class,
   'reservations' => \App\Http\Controllers\ReservationController::class,
   'reservation-payments' => \App\Http\Controllers\ReservationPaymentController::class,
   'rooms' => \App\Http\Controllers\RoomController::class,

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReservationRequest;
-use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
+use App\Http\Requests\StoreRoomReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Room;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
-class ReservationController extends APIController
+class RoomReservationController extends APIController
 {
   /**
    * Display a listing of the resource.
@@ -23,18 +24,17 @@ class ReservationController extends APIController
 
     /** @var Builder */
     $builder = request()->query->getBoolean('ignoreStatus')
-      ? Reservation::with($relations)
-      : Reservation::needActions()->with($relations);
+      ? Reservation::whereHasMorph('reservable', Room::class)
+      : Reservation::needActions()->whereHasMorph('reservable', Room::class);
+
+    $builder->with($relations);
 
     if (request()->query->getBoolean('all')) {
       return $this->send($builder->get($columns)->makeHidden($hidden));
-    };
+    }
 
-    $pagination = $builder->paginate($this->PAGINATION_PERPAGE_DEFAULT, $columns)
-      ->appends(request()->query());
-    $pagination->makeHidden($hidden);
-
-    return $pagination;
+    return $builder->paginate($this->PAGINATION_PERPAGE_DEFAULT, $columns)
+      ->makeHidden($hidden);
   }
 
   /**
@@ -42,11 +42,23 @@ class ReservationController extends APIController
    *
    * @return \Illuminate\Http\Response
    */
-  public function store(StoreReservationRequest $request)
+  public function store(StoreRoomReservationRequest $request)
   {
-    abort(404);
-    // Reservation;
-    // return $this->send($request->safe()->all());
+    $payload = $request->safe();
+
+    if ($room = Room::find($payload->room_id, ['id'])) {
+      /** @var Reservation */
+      $reservation = Reservation::make([
+        ...$payload->except(['room_id', 'start']),
+        'start' => Carbon::parse($payload->start),
+      ]);
+      $reservation->reservable()->associate($room);
+      $reservation->user()->associate($request->user());
+      $reservation->save();
+      return $this->send($reservation->getKey());
+    }
+
+    abort(422, 'Room not found!');
   }
 
   /**
@@ -57,16 +69,13 @@ class ReservationController extends APIController
    */
   public function show(Reservation $reservation)
   {
-    /** @var Builder */
-    $builder = $reservation->load(['reservable:id,name', 'user:id,name', 'approvalAssignee:id,name']);
-
-    return $this->send($builder
-      ->makeHidden(['reservable_id', 'reservable_type', 'user_id', 'approval_assigned_by_id']));
   }
 
   /**
    * Update the specified resource in storage.
    *
+   * @param  \App\Http\Requests\UpdateReservationRequest  $request
+   * @param  \App\Models\Reservation  $reservation
    * @return \Illuminate\Http\Response
    */
   public function update(UpdateReservationRequest $request, Reservation $reservation)

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Enums\ReservationStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -66,5 +68,10 @@ class Reservation extends Model
     }
 
     return $start;
+  }
+
+  public function scopeNeedActions(Builder $query)
+  {
+    return $query->where('status', ReservationStatus::Pending);
   }
 }

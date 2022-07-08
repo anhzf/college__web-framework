@@ -1,6 +1,6 @@
 dispatch:
-  - url: "learning-project-321200.et.r.appspot.com/*"
-    service: default
+  - url: "api.e-nyileh.anhzf.dev/*"
+    service: e-nyileh--api
 
   - url: "e-nyileh.anhzf.dev/api*"
     service: e-nyileh--api
@@ -8,5 +8,5 @@ dispatch:
   - url: "e-nyileh.anhzf.dev/*"
     service: e-nyileh--webapp
 
-  - url: "api.e-nyileh.anhzf.dev/*"
-    service: e-nyileh--api
+  - url: "learning-project-321200.et.r.appspot.com/*"
+    service: default

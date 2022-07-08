@@ -6,6 +6,8 @@ use App\Http\Controllers\Enums\APIMessage;
 
 class APIController extends Controller
 {
+  protected $PAGINATION_PERPAGE_DEFAULT = 20;
+
   private $message = null;
 
   public function send($data = null, APIMessage|string $message = null, int $code = 200)

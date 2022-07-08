@@ -58,9 +58,7 @@ return [
 
     'gcs' => [
       'driver' => 'gcs',
-      'key_file_path' => env('GOOGLE_CLOUD_KEY_FILE', null), // optional: /path/to/service-account.json
-      'key_file' => [], // optional: Array of data that substitutes the .json file (see below)
-      'project_id' => env('GOOGLE_CLOUD_PROJECT_ID', 'learning-project-321200'), // optional: is included in key file
+      'key_file_path' => env('APP_ENV') === 'local' ? env('GOOGLE_CLOUD_KEY_FILE', null) : null, // optional: /path/to/service-account.json
       'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'dev-test-local-personal'),
       'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', ''), // optional: /default/path/to/apply/in/bucket
       'apiEndpoint' => env('GOOGLE_CLOUD_STORAGE_API_URI', null), // see: Public URLs below
