@@ -4,6 +4,15 @@ Aplikasi manajemen peminjaman fasilitas dan ruangan.
 
 > Silahkan klik menu dipojok kiri atas ↖️ untuk melihat daftar isi.
 
+## Fitur
+- Single Page Application (SPA), navigasi antar halaman tidak perlu me-reload keseluruhan halaman.
+- API Based, Menggunakan Token API sebagai jantunganya keamanan.
+
+  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/19368649-a90d662c-64de-45cb-897b-bad279e04a22?action=collection%2Ffork&collection-url=entityId%3D19368649-a90d662c-64de-45cb-897b-bad279e04a22%26entityType%3Dcollection%26workspaceId%3D2d20d3b3-563e-4529-ae76-7181e5c0dc67)
+- Material Design 2 sebagai Design System.
+- Fast and High Performance.
+- Fungsional aplikasi ⭐⭐⭐⭐
+
 ## Petunjuk Umum
 
 ### Tools yang disarankan
