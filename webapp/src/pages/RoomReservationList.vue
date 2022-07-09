@@ -1,9 +1,23 @@
 <template>
   <v-container fluid>
-    <v-row justify="space-between">
-      <v-col>
+    <v-row class="items-center">
+      <v-col cols="auto">
         <h1>Jadwal Ruangan</h1>
       </v-col>
+
+      <v-col
+        cols="auto"
+        class="py-0"
+      >
+        <router-link
+          to="/asdasd"
+          class="text-subtitle-2"
+        >
+          Lihat daftar ruangan
+        </router-link>
+      </v-col>
+
+      <v-spacer />
 
       <v-col cols="auto">
         <v-btn
@@ -92,7 +106,7 @@
                   {{ room.reservedTime }} jam
                 </v-chip>
                 <v-chip
-                  v-if="isOnProgress(room)"
+                  v-if="isOnProgress(room.reservedDate, room.reservedTime)"
                   color="warning"
                   density="compact"
                 >
@@ -108,11 +122,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Temporal } from '@js-temporal/polyfill';
 import { useAsyncState } from '@vueuse/core';
 import { computed } from 'vue';
 import { roomReservations } from '../api';
 import QueryChip from '../components/QueryChip.vue';
+import { isOnProgress } from '../utils/datetime';
 
 interface NormalizedRoomReservation {
   id: string;
@@ -137,13 +151,6 @@ const normalizedList = computed(() => list.value.map((el) => ({
   reservedDate: new Date(el.start),
   reservedTime: el.long === null ? 1 : el.long / 60,
 }) as NormalizedRoomReservation));
-
-const isOnProgress = (reservation: NormalizedRoomReservation) => {
-  const now = Temporal.Now.instant();
-  const start = reservation.reservedDate.toTemporalInstant();
-  const end = start.add({ hours: reservation.reservedTime });
-  return Temporal.Instant.compare(now, start) >= 0 && Temporal.Instant.compare(now, end) <= 0;
-};
 </script>
 
 <style lang="sass">

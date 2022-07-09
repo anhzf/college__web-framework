@@ -1,62 +1,87 @@
 <template>
   <v-container fluid>
-    <h1>
-      DAFTAR RESERVASI ANDA
-    </h1>
-
     <v-row>
       <v-col>
-        <v-card
-          color="#99ccff"
-          dark
-        >
-          <v-card-title class="text-h5">
-            Software Engineering
+        <h1>
+          Daftar reservasi anda
+        </h1>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="reservations.length">
+      <v-col
+        v-for="el in reservations"
+        :key="el.id"
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <v-card>
+          <v-card-title>
+            {{ el.description_short }}
           </v-card-title>
 
-          <v-card-subtitle type="date-time">
-            Waktu Reservasi
+          <v-card-subtitle>
+            {{ el.reservable.name }}
           </v-card-subtitle>
 
           <v-card-text>
-            Deskripsi Kegiatan
+            <div class="flex items-center gap-4">
+              <span>
+                {{ el.start.toLocaleString() }}
+              </span>
+              <v-chip density="compact">
+                {{ (el.long || 60) / 60 }} jam
+              </v-chip>
+              <v-chip
+                v-if="isOnProgress(el.start, (el.long || 60) / 60)"
+                color="warning"
+                density="compact"
+              >
+                Sedang berjalan
+              </v-chip>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
+    </v-row>
+
+    <v-row v-else>
       <v-col>
-        <v-card
-          color="#FF99FF"
-          dark
-          @click="yntkts"
+        <p>Anda tidak memiliki reservasi untuk saat ini.</p>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="!auth.user">
+      <v-col cols="auto">
+        <v-btn
+          prepend-icon="mdi-login"
+          :to="{name: 'SignIn'}"
         >
-          <v-card-title class="text-h5">
-            Software Engineering
-          </v-card-title>
-
-          <v-card-subtitle type="date-time">
-            Waktu Reservasi
-          </v-card-subtitle>
-
-          <v-card-text>
-            Deskripsi Kegiatan
-          </v-card-text>
-        </v-card>
+          Masuk untuk membuat Reservasi
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import { getCurrentUser } from '../api/users';
-import { catchErrorAsNotification } from '../utils/ui';
+import { useAsyncState, useMemoize } from '@vueuse/core';
+import { users } from '../api';
+import { useAuthStore } from '../stores/auth';
+import { isOnProgress } from '../utils/datetime';
+import { errorAsNotification } from '../utils/ui';
 
-const throwErr = () => {
-  throw new Error('asdsadasdas');
-};
-
-const yntkts = (() => {
-  catchErrorAsNotification(async () => {
-    console.log(await getCurrentUser());
-  });
+const auth = useAuthStore();
+const getMyReservations = useMemoize(async () => {
+  try {
+    const { data } = await users.getMyReservations();
+    return data.concat(...data, ...data);
+  } catch (err) {
+    errorAsNotification(err as Error);
+    return [];
+  }
 });
+
+const { state: reservations } = useAsyncState(getMyReservations(), []);
 </script>

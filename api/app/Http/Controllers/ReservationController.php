@@ -45,8 +45,6 @@ class ReservationController extends APIController
   public function store(StoreReservationRequest $request)
   {
     abort(404);
-    // Reservation;
-    // return $this->send($request->safe()->all());
   }
 
   /**

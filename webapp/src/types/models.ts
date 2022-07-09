@@ -44,7 +44,8 @@ export interface UserDetails extends User {
   updated_at: Date;
 }
 
-export interface UserDetailsRaw extends Omit<WithTimestampsRaw<UserDetails>, 'email_verified_at' | 'is_internal_verified_at'> {
+export interface UserDetailsRaw extends Omit<WithTimestampsRaw<UserDetails>, 'email_verified_at' | 'is_internal' | 'is_internal_verified_at'> {
+  is_internal: 0 | 1;
   email_verified_at: string | null;
   is_internal_verified_at: string | null;
 }
@@ -112,15 +113,13 @@ export interface ReservationRaw<TReservable extends ReservableRaw> extends Omit<
 
 export interface ReservationDetails<TReservable extends Reservable> extends Reservation<TReservable> {
   description: string | null;
-  user: User;
   approval_assignee: User | null;
   created_at: Date;
   updated_at: Date;
 }
 
-export interface ReservationDetailsRaw<TReservable extends ReservableRaw> extends WithTimestampsRaw<Omit<ReservationDetails<TReservable>, 'start'>> {
-  start: string;
-  user: UserRaw;
+export interface ReservationDetailsRaw<TReservable extends ReservableRaw>
+  extends WithTimestampsRaw<ReservationDetails<TReservable> & ReservationRaw<TReservable>> {
   approval_assignee: UserRaw | null;
 }
 

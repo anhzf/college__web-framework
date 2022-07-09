@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import __ from '../lang';
 import useNotificationAlertsStore, { NotificationOptions } from '../stores/notificationAlerts';
 import useProgressBarStore from '../stores/progressBar';
-import type { AnyTypedFn } from './types';
+import type { AnyTypedFn } from '../types/common';
 
 const createNotification = (data: string | NotificationOptions) => {
   const store = useNotificationAlertsStore();

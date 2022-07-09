@@ -10,65 +10,47 @@
 
       <v-divider />
 
-      <v-list nav>
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Dasbor"
-          :to="{name: 'Home'}"
-        />
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Ruangan"
-          subtitle="Jadwal dan Peminjaman"
-          :to="{name: 'RoomReservation'}"
-        />
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Fasilitas"
-          subtitle="Peminjaman"
-          :to="{name: 'FacilityReservation'}"
-        />
+      <template v-if="auth.isReady">
+        <v-list nav>
+          <v-list-item
+            v-for="el in baseNavItems"
+            :key="String(el.title)"
+            v-bind="el"
+          />
 
-        <v-list-subheader>Admin</v-list-subheader>
+          <template v-if="auth.isAdmin">
+            <v-list-subheader>Admin</v-list-subheader>
 
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Verifikasi Reservasi"
-          :to="{name: 'ReservationVerification'}"
-        />
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Member"
-          subtitle="Kelola Member"
-          :to="{name: 'MemberManagement'}"
-        />
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Fasilitas"
-          subtitle="Kelola Fasilitas"
-          :to="{name: 'FacilityManagement'}"
-        />
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Ruangan"
-          subtitle="Kelola Ruangan"
-          :to="{name: 'RoomManagement'}"
-        />
-        <v-list-item
-          prepend-icon="mdi-circle"
-          title="Pengaturan"
-          :to="{name: 'Settings'}"
-        />
-        <v-spacer />
-      </v-list>
+            <v-list-item
+              v-for="el in adminNavItems"
+              :key="String(el.title)"
+              v-bind="el"
+            />
+          </template>
+
+          <template v-if="auth.user">
+            <v-list-subheader>Lainnya</v-list-subheader>
+
+            <v-list-item
+              v-for="el in userNavItems"
+              :key="String(el.title)"
+              v-bind="el"
+            />
+          </template>
+        </v-list>
+      </template>
+
+      <template v-else>
+        <v-progress-circular indeterminate />
+      </template>
 
       <template
-        v-if="!auth.user"
+        v-if="auth.isReady && !auth.user"
         #append
       >
         <div class="pa-2">
           <v-btn
-            prepend-icon="mdi-circle"
+            prepend-icon="mdi-login"
             :to="{name: 'SignIn'}"
             block
             color="primary"
@@ -207,25 +189,76 @@
 import { computed, ref } from 'vue';
 import { useDark } from '@vueuse/core';
 import { useRouter } from 'vue-router';
+import { VListItem } from 'vuetify/components';
 import { useAuthStore } from './stores/auth';
 import useNotificationAlerts from './stores/notificationAlerts';
 import useProgressBarStore from './stores/progressBar';
-import { useTranslations } from './lang';
 import { notify } from './utils/ui';
-import type { AnyTypedFn } from './utils/types';
+import type { AnyTypedFn, ComponentProps } from './types/common';
+
+const baseNavItems: ComponentProps<typeof VListItem>[] = [
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Dasbor',
+    to: { name: 'Home' },
+  },
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Ruangan',
+    subtitle: 'Jadwal dan Peminjaman',
+    to: { name: 'RoomReservation' },
+  },
+  // {
+  //   prependIcon: 'mdi-circle',
+  //   title: 'Fasilitas',
+  //   subtitle: 'Peminjaman',
+  //   to: { name: 'FacilityReservation' },
+  // },
+];
+
+const adminNavItems: ComponentProps<typeof VListItem>[] = [
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Verifikasi Reservasi',
+    to: { name: 'ReservationVerification' },
+  },
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Ruangan',
+    subtitle: 'Kelola Ruangan',
+    to: { name: 'RoomManagement' },
+  },
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Fasilitas',
+    subtitle: 'Kelola Fasilitas',
+    to: { name: 'FacilityManagement' },
+  },
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Member',
+    subtitle: 'Kelola Member',
+    to: { name: 'MemberManagement' },
+  },
+];
+
+const userNavItems: ComponentProps<typeof VListItem>[] = [
+  {
+    prependIcon: 'mdi-circle',
+    title: 'Pengaturan',
+    to: { name: 'Settings' },
+  },
+];
 
 const isDark = useDark();
 const { notifications } = useNotificationAlerts();
 const progressBarStore = useProgressBarStore();
-const { load } = useTranslations();
 const auth = useAuthStore();
 const router = useRouter();
 const leftDrawerIsOpen = ref(true);
 const rightDrawerIsOpen = ref(false);
 const userAvatarName = computed(() => auth.user?.name.split(' ').map((w) => w.at(0)).slice(0, 2).join('')
   .toUpperCase());
-
-load();
 
 const closeOnRightDrawerItemClick = <T extends [] = [], R = void>(handler: AnyTypedFn<R, T>) => (async (...args: T) => {
   const r = await Promise.resolve(handler(...args));

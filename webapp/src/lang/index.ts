@@ -18,10 +18,11 @@ const useTranslations = defineStore('translation', () => {
     });
   };
 
+  load();
+
   return {
     repository: readonly(repository),
     isReady: readonly(isReady),
-    load,
   };
 });
 

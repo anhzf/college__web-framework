@@ -1,14 +1,21 @@
 import http from '../utils/http';
 import type { APIResponseBody } from './types';
-import type { APIRaw, UserDetails } from '../types/models';
+import type {
+  ReservableRaw, ReservationRaw, User, UserDetails, UserDetailsRaw, UserRaw,
+} from '../types/models';
 import { hasToken } from './auth';
+import { fromRaw as fromRawReservation } from './reservations';
 
 enum Endpoint {
   CurrentUser = '/user',
+  MyReservations = '/user/reservations',
 }
 
-const fromRaw = (data: APIRaw<UserDetails>): UserDetails => ({
+const fromRaw = (data: UserRaw): User => data;
+
+const fromRawDetails = (data: UserDetailsRaw): UserDetails => ({
   ...data,
+  ...fromRaw(data),
   email_verified_at: data.email_verified_at ? new Date(data.email_verified_at) : null,
   is_internal: data.is_internal === 1,
   is_internal_verified_at: data.is_internal_verified_at ? new Date(data.is_internal_verified_at) : null,
@@ -16,16 +23,27 @@ const fromRaw = (data: APIRaw<UserDetails>): UserDetails => ({
   updated_at: new Date(data.updated_at),
 });
 
-type CurrentUserResponseData = APIRaw<UserDetails>;
-
 const getCurrentUser = async () => {
   if (!hasToken()) return null;
+  const { data } = await http.get<APIResponseBody<UserDetailsRaw>>(Endpoint.CurrentUser);
+  return fromRawDetails(data.data);
+};
 
-  const { data } = await http.get<APIResponseBody<CurrentUserResponseData>>(Endpoint.CurrentUser);
-  return fromRaw(data.data);
+/**
+ * @todo Implements API Backend
+ */
+const getMyReservations = async () => {
+  if (!hasToken()) return { message: null, data: [] };
+  const { data } = await http.get<APIResponseBody<ReservationRaw<ReservableRaw>[]>>(Endpoint.MyReservations);
+  return {
+    ...data,
+    data: data.data.map(fromRawReservation),
+  };
 };
 
 export {
   fromRaw,
+  fromRawDetails,
   getCurrentUser,
+  getMyReservations,
 };

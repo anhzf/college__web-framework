@@ -24,7 +24,6 @@
             <v-form
               id="f_create-room-reservation"
               v-model="isFormValid"
-              lazy-validation
               @submit.prevent="onSubmit"
             >
               <v-select
@@ -60,7 +59,7 @@
                     min="60"
                     max="300"
                     step="30"
-                    :rules="[v => !!v || 'Harap isi durasi peminjaman']"
+                    :rules="[v => !!v || 'Harap isi durasi peminjaman', v => v % 30 === 0 || 'Durasi harus kelipatan 30 menit']"
                     required
                   />
                 </v-col>
@@ -127,7 +126,7 @@ const maxReservationDay = Temporal.Now.instant().add({ hours: 24 * 14 })
 const fields = reactive({
   room_id: undefined as number | undefined,
   date: '',
-  long: 60,
+  long: 0,
   eventName: '',
   eventDescription: '',
 });

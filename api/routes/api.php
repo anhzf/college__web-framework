@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,12 +21,13 @@ Route::post('/signup', [AuthController::class, 'signUp']);
 Route::get('/signout', [AuthController::class, 'signOut']);
 Route::get('/authenticate', [AuthController::class, 'authenticate']);
 
-Route::middleware('auth:sanctum')->group(function () {
-  Route::get('/user', [AuthController::class, 'whoami']);
-  Route::get('/user/verify', [AuthController::class, 'verify'])
+Route::prefix('/user')->middleware('auth:sanctum')->group(function () {
+  Route::get('/', [AuthController::class, 'whoami']);
+  Route::get('/reservations', [UserController::class, 'myReservations']);
+  Route::get('/verify', [AuthController::class, 'verify'])
     ->middleware('throttle:6,1')
     ->name('verification.send');
-  Route::get('/user/verify/{id}/{hash}', [AuthController::class, 'verifyVerification'])
+  Route::get('/verify/{id}/{hash}', [AuthController::class, 'verifyVerification'])
     ->middleware('signed')
     ->name('verification.verify');
 });
