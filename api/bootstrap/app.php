@@ -41,9 +41,6 @@ $app->singleton(
   App\Exceptions\Handler::class
 );
 
-if (!empty(env('GAE_INSTANCE'))) {
-  $app->useStoragePath(sys_get_temp_dir());
-}
 
 /*
 |--------------------------------------------------------------------------

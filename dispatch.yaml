@@ -1,10 +1,4 @@
 dispatch:
-  - url: "api.e-nyileh.anhzf.dev/*"
-    service: e-nyileh--api
-
-  - url: "e-nyileh.anhzf.dev/api*"
-    service: e-nyileh--api
-
   - url: "e-nyileh.anhzf.dev/*"
     service: e-nyileh--webapp
 

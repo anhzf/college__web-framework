@@ -81,13 +81,13 @@ class DatabaseSeeder extends Seeder
       'price_per_hour' => 15_000,
     ]);
 
-    $roomLabSoft->addMedia(database_path('seeders\assets\room_software-lab.jpg'))
+    $roomLabSoft->addMedia(database_path('seeders/assets/room_software-lab.jpg'))
       ->preservingOriginal()
       ->toMediaCollection();
-    $roomLabNet->addMedia(database_path('seeders\assets\room_networking-lab.png'))
+    $roomLabNet->addMedia(database_path('seeders/assets/room_networking-lab.png'))
       ->preservingOriginal()
       ->toMediaCollection();
-    $roomMultimedia->addMedia(database_path('seeders\assets\room_multimedia-studio.jpg'))
+    $roomMultimedia->addMedia(database_path('seeders/assets/room_multimedia-studio.jpg'))
       ->preservingOriginal()
       ->toMediaCollection();
 
