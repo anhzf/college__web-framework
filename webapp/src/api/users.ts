@@ -5,10 +5,12 @@ import type {
 } from '../types/models';
 import { hasToken } from './auth';
 import { fromRaw as fromRawReservation } from './reservations';
+import router from '../router';
 
 enum Endpoint {
   CurrentUser = '/user',
   MyReservations = '/user/reservations',
+  SendEmailVerification = '/user/verify',
 }
 
 const fromRaw = (data: UserRaw): User => data;
@@ -29,9 +31,6 @@ const getCurrentUser = async () => {
   return fromRawDetails(data.data);
 };
 
-/**
- * @todo Implements API Backend
- */
 const getMyReservations = async () => {
   if (!hasToken()) return { message: null, data: [] };
   const { data } = await http.get<APIResponseBody<ReservationRaw<ReservableRaw>[]>>(Endpoint.MyReservations);
@@ -41,9 +40,27 @@ const getMyReservations = async () => {
   };
 };
 
+const sendEmailVerification = async () => {
+  if (hasToken()) {
+    const params = new URLSearchParams({
+      authenticate_url: `${window.location.origin}${router.resolve({ name: 'SignIn' }).path}`,
+    });
+
+    await http.get<APIResponseBody>(Endpoint.SendEmailVerification, { params });
+  }
+};
+
+const verify = async (url: string) => {
+  if (hasToken()) {
+    await http.get<APIResponseBody>(url);
+  }
+};
+
 export {
   fromRaw,
   fromRawDetails,
   getCurrentUser,
   getMyReservations,
+  sendEmailVerification,
+  verify,
 };

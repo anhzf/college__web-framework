@@ -3,10 +3,13 @@ import { defineStore } from 'pinia';
 import {
   computed, readonly, ref, watch,
 } from 'vue';
-import { auth, users } from '../api';
+import { APIResponseBody, auth, users } from '../api';
 import routeGuardian from '../navigation-guards/auth/routeGuardian';
 import type { UserDetails } from '../types/models';
 import router from '../router';
+import http from '../utils/http';
+import { catchErrorAsNotification, notify } from '../utils/ui';
+import { removeSearchParams } from '../utils/transform';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<UserDetails | null>();
@@ -52,6 +55,18 @@ export const useAuthStore = defineStore('auth', () => {
         break;
     }
   });
+
+  watch(user, (v) => catchErrorAsNotification(async () => {
+    if (v
+        && !isVerified.value
+        && router.currentRoute.value.query.action === 'verify') {
+      await http.get<APIResponseBody>(String(router.currentRoute.value.query.call));
+      notify.success('Email verified successfully');
+      await refresh();
+      const removedSearchParams = removeSearchParams(new URLSearchParams(window.location.search));
+      await router.push({ query: Object.fromEntries(removedSearchParams) });
+    }
+  }));
 
   return {
     user: readonly(user),

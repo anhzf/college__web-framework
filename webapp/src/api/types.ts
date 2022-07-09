@@ -1,4 +1,4 @@
-export interface APIResponseBody<T> {
+export interface APIResponseBody<T = null> {
   data: T;
   message: string | null;
 }

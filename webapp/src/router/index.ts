@@ -8,6 +8,15 @@ const router = createRouter({
   routes,
 });
 
+const routerPush = router.push;
+
+const interceptRouterPush: typeof router.push = async (...[to, ...args]) => {
+  const normalizedTo = typeof to === 'string' ? to : { ...router.currentRoute.value, ...to };
+  return routerPush(normalizedTo, ...args);
+};
+
+router.push = interceptRouterPush;
+
 router.beforeEach(progressBar.start);
 navigationGuards.forEach(router.beforeEach);
 router.afterEach(progressBar.stop);

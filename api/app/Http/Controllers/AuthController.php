@@ -52,12 +52,14 @@ class AuthController extends APIController
   public function signUp(StoreUserRequest $request)
   {
     $payload = $request->safe();
-
+    /** @var User */
     $user = User::create([
       ...$payload->except(['internal_idcard_file']),
       'password' => Hash::make($payload->password),
     ]);
     event(new Registered($user));
+    $user->addMediaFromRequest('internal_idcard_file')
+      ->toMediaCollection('internal idcard files');
     $token = $user->createToken('authToken')->plainTextToken;
     return $this->send([
       'username' => $user->name,
@@ -79,26 +81,7 @@ class AuthController extends APIController
 
   public function verifyVerification(EmailVerificationRequest $request)
   {
-    if (!hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
-      throw new AuthorizationException;
-    }
-
-    if (!hash_equals((string) $request->get('hash'), sha1($request->user()->getEmailForVerification()))) {
-      throw new AuthorizationException();
-    }
-
-    if ($request->user()->hasVerifiedEmail()) {
-      return $this->send(null, APIMessage::ALREADY_VERIFIED, 204);
-    }
-
-    if ($request->user()->markEmailAsVerified()) {
-      event(new Verified($request->user()));
-    }
-
-    if ($response = $this->verified($request)) {
-      return $response;
-    }
-
+    $request->fulfill();
     return $this->send(null, APIMessage::SUCCESS_VERIFICATION);
   }
 }

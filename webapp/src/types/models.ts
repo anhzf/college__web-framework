@@ -37,6 +37,7 @@ export interface UserDetails extends User {
   role: UserRole;
   email_verified_at: Date | null;
   verified_by_id: number | null;
+  internal_id: boolean;
   is_internal: boolean;
   is_internal_verified_by_id: number | null;
   is_internal_verified_at: Date | null;

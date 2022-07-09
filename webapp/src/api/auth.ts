@@ -1,6 +1,7 @@
 import http from '../utils/http';
 import type { UserDetails } from '../types/models';
 import type { APIResponseBody } from './types';
+import router from '../router';
 
 const TOKEN_STORAGE_KEY = 'auth-token';
 
@@ -65,7 +66,10 @@ const signUp = async (payload: SignUpPayload) => {
       formData.append(key, value || null);
     }
   });
-  const { data } = await http.post<APIResponseBody<SignUpResponseData>>(Endpoint.SignUp, formData);
+  const params = new URLSearchParams({
+    authenticate_url: `${window.location.origin}${router.resolve({ name: 'SignIn' }).path}`,
+  });
+  const { data } = await http.post<APIResponseBody<SignUpResponseData>>(Endpoint.SignUp, formData, { params });
   const { token } = data.data;
 
   setToken(token);

@@ -3,6 +3,10 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
 
 class Authenticate extends Middleware
 {
@@ -15,7 +19,27 @@ class Authenticate extends Middleware
   protected function redirectTo($request)
   {
     if (!$request->expectsJson()) {
-      return 'http://localhost:3000/signin';
+      if ($definedRedirect = request()->query('authenticate_url')) {
+        parse_str(parse_url($definedRedirect, PHP_URL_QUERY), $query);
+
+        $merged = $query + [
+          'call' => request()->fullUrl(),
+          'action' => 'verify'
+        ];
+
+        [
+          'scheme' => $scheme,
+          'host' => $host,
+          'port' => $port,
+          'path' => $path,
+        ] = parse_url($definedRedirect) + ['port' => 80, 'path' => '/'];
+        $port = $scheme === 'https' ? 443 : $port;
+        $url = "{$scheme}://{$host}:{$port}{$path}?" . Arr::query($merged);
+
+        return $url;
+      }
+
+      return route('login');
     }
   }
 }

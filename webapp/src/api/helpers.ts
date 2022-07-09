@@ -1,5 +1,5 @@
 import type { Timestamps, TimestampsRaw } from '../types/models';
-import { removeSearchParams } from '../utils/transform';
+import { removeUrlSearchParams } from '../utils/transform';
 import type { Paginate, Pagination } from './types';
 
 // export const toTimestampsRaw = (date: Date): string => date.toISOString().split('.')[0];
@@ -21,7 +21,7 @@ export const paginate = <R, M>(paginable: Paginate<R>, endpoint: URL, dataMapper
       last_page_url: endpoint.toString(),
       next_page_url: null,
       links: [],
-      path: removeSearchParams(new URL(endpoint)).toString(),
+      path: removeUrlSearchParams(new URL(endpoint)).toString(),
       per_page: paginable.length,
       prev_page_url: null,
       to: paginable.length,
