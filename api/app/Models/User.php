@@ -20,6 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $password
  * @property UserRole $role
  * @property string|null $remember_token
+ * @property string|null $internal_id
  * @property bool $is_internal
  * @property int|null $is_internal_verified_by_id
  * @property \Illuminate\Support\Carbon|null $is_internal_verified_at

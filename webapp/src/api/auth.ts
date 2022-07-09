@@ -46,7 +46,9 @@ interface SignUpPayload {
   name: string;
   email: string;
   password: string;
-  password_confirm: string;
+  password_confirmation: string;
+  internal_id?: string;
+  internal_idcard_file?: File;
 }
 
 interface SignUpResponseData {
@@ -54,8 +56,16 @@ interface SignUpResponseData {
   token: string;
 }
 
-const signUp = async (payload: SignInPayload) => {
-  const { data } = await http.post<APIResponseBody<SignUpResponseData>>(Endpoint.SignUp, payload);
+const signUp = async (payload: SignUpPayload) => {
+  const formData = new FormData();
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value instanceof File) {
+      formData.append(key, value, value.name);
+    } else if (value) {
+      formData.append(key, value || null);
+    }
+  });
+  const { data } = await http.post<APIResponseBody<SignUpResponseData>>(Endpoint.SignUp, formData);
   const { token } = data.data;
 
   setToken(token);

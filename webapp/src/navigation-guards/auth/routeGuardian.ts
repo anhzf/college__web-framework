@@ -43,7 +43,7 @@ const routeGuardian = async (to: RouteLocation) => {
       return FAIL_FALLBACK_ROUTE.ADMIN;
     }
 
-    if (role === 'member' && !auth.isMember) {
+    if (role === 'member' && !auth.user) {
       throwUnathenticatedError('you must login first');
       return FAIL_FALLBACK_ROUTE.MEMBER;
     }

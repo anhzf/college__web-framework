@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Enums\APIMessage;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,17 +49,14 @@ class AuthController extends APIController
     return $this->sendError(APIMessage::INVALID_CREDENTIALS, 401);
   }
 
-  public function signUp(Request $request)
+  public function signUp(StoreUserRequest $request)
   {
-    $validated = $request->validate([
-      'name' => 'required',
-      'email' => 'required|email|unique:users',
-      'password' => 'required|confirmed',
-    ]);
+    $payload = $request->safe();
 
-    $user = User::create(array_merge($validated, [
-      'password' => Hash::make($validated['password']),
-    ]));
+    $user = User::create([
+      ...$payload->except(['internal_idcard_file']),
+      'password' => Hash::make($payload->password),
+    ]);
     event(new Registered($user));
     $token = $user->createToken('authToken')->plainTextToken;
     return $this->send([
@@ -79,7 +79,26 @@ class AuthController extends APIController
 
   public function verifyVerification(EmailVerificationRequest $request)
   {
-    $request->fulfill();
+    if (!hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
+      throw new AuthorizationException;
+    }
+
+    if (!hash_equals((string) $request->get('hash'), sha1($request->user()->getEmailForVerification()))) {
+      throw new AuthorizationException();
+    }
+
+    if ($request->user()->hasVerifiedEmail()) {
+      return $this->send(null, APIMessage::ALREADY_VERIFIED, 204);
+    }
+
+    if ($request->user()->markEmailAsVerified()) {
+      event(new Verified($request->user()));
+    }
+
+    if ($response = $this->verified($request)) {
+      return $response;
+    }
+
     return $this->send(null, APIMessage::SUCCESS_VERIFICATION);
   }
 }
