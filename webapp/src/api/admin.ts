@@ -11,11 +11,14 @@ enum Endpoint {
   UserEntity = '/users/{user}',
   MarkVerified = '/users/{user}/mark-verified',
   MarkInternal = '/users/{user}/mark-internal',
+  AcceptReservation = '/reservations/{reservation}/accept',
+  RejectReservation = '/reservations/{reservation}/reject',
 }
 
 const endpoint = (path: `${Endpoint}${string}`, param?: User['id']) => {
   const pathWithParam = path.replace('{user}', param === undefined ? '' : param.toString());
-  return `${BASE_ENDPOINT}${pathWithParam}`;
+  const fullPath = `${BASE_ENDPOINT}${pathWithParam}`;
+  return fullPath.endsWith('/') ? fullPath.slice(0, -1) : fullPath;
 };
 
 interface UserInList extends User {
@@ -53,11 +56,16 @@ const markUserAsInternalMember = async (id: number) => {
   await http.post<ResourceChangeAPIResponseBody>(endpoint(Endpoint.MarkInternal, id));
 };
 
+const verifyReservation = async (id: number, status: boolean) => {
+  await http.post<ResourceChangeAPIResponseBody>(endpoint(status ? Endpoint.AcceptReservation : Endpoint.RejectReservation, id));
+};
+
 export {
   allUsers,
   getUser,
   markUserAsVerified,
   markUserAsInternalMember,
+  verifyReservation,
 };
 
 export type {

@@ -57,34 +57,47 @@
               <th>Nama Ruangan/Fasilitas</th>
               <th>Deskripsi Kegiatan</th>
               <th>Waktu dan Tanggal</th>
-              <th>Action</th>
+              <th class="text-center">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Nama Ruangan/Fasilitas</td>
-              <td>Deskripsi Kegiatan</td>
-              <td>Waktu dan Tanggal</td>
-              <td>
-                <v-btn
-                  depressed
-                  color="primary"
-                >
-                  VERIFIKASI
-                </v-btn>
-              </td>
-            </tr>
-            <tr>
-              <td>Nama Ruangan/Fasilitas</td>
-              <td>Deskripsi Kegiatan</td>
-              <td>Waktu dan Tanggal</td>
-              <td>
-                <v-chip
-                  color="success"
-                  prepend-icon="mdi-check"
-                >
-                  TERVERIFIKASI
+            <tr
+              v-for="el in list"
+              :key="el.id"
+            >
+              <td>{{ el.reservable.name }}</td>
+              <td>{{ el.description_short }}</td>
+              <td class="flex items-center gap-2">
+                <span>
+                  {{ el.start.toLocaleString() }}
+                </span>
+                <v-chip density="compact">
+                  {{ (el.long || 60) / 60 }} jam
                 </v-chip>
+              </td>
+              <td>
+                <div class="flex justify-end items-center gap-2.5">
+                  <v-btn
+                    prepend-icon="mdi-check"
+                    variant="flat"
+                    color="secondary"
+                    size="small"
+                    @click="onAcceptReservationClick(el.id)"
+                  >
+                    Terima
+                  </v-btn>
+                  <v-btn
+                    prepend-icon="mdi-close"
+                    variant="flat"
+                    color="error"
+                    size="small"
+                    @click="onRejectReservationClick(el.id)"
+                  >
+                    Tolak
+                  </v-btn>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -93,3 +106,24 @@
     </v-row>
   </v-container>
 </template>
+
+<script lang="ts" setup>
+import { useAsyncState } from '@vueuse/core';
+import { admin, reservations } from '../api';
+import __ from '../lang';
+import { catchErrorAsNotification, notify } from '../utils/ui';
+
+type KeyType = number;
+
+const { state: list } = useAsyncState(reservations.all(), []);
+
+const onAcceptReservationClick = (id: KeyType) => catchErrorAsNotification(async () => {
+  admin.verifyReservation(id, true);
+  notify.success(__('Reservation accepted'));
+});
+
+const onRejectReservationClick = (id: KeyType) => catchErrorAsNotification(async () => {
+  admin.verifyReservation(id, false);
+  notify.success(__('Reservation rejected'));
+});
+</script>
