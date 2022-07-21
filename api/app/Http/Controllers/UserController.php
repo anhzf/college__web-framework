@@ -90,12 +90,13 @@ class UserController extends APIController
     $columns = ['id', 'reservable_id', 'reservable_type', 'start', 'long', 'description_short', 'status', 'user_id'];
     $hidden = ['reservable_id', 'reservable_type', 'user', 'user_id', 'approval_assigned_by_id', 'approval_assigned_at'];
     $relations = ['reservable:id,name', 'approvalAssignee:id,name'];
+    $append = ['billed_amount'];
 
     /** @var User */
     $user = auth()->user();
     /** @var Builder */
     $builder = $user->reservations()->with($relations);
 
-    return $this->send($builder->get($columns)->makeHidden($hidden));
+    return $this->send($builder->get($columns)->append($append)->makeHidden($hidden));
   }
 }

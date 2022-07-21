@@ -17,8 +17,25 @@
         lg="4"
       >
         <v-card>
+          <div
+            class="h-1.5"
+            :class="{
+              'bg-error': el.status === 'rejected',
+              'bg-success': el.status === 'approved',
+              'bg-secondary': el.status === 'pending',
+              'bg-info': el.status ==='pending',
+              'bg-warning': el.status === 'cancelled'
+            }"
+          />
+
           <v-card-title>
-            {{ el.description_short }}
+            <div class="flex items-start">
+              <span>
+                {{ el.description_short }}
+              </span>
+              <v-spacer />
+              <v-chip>{{ el.status }}</v-chip>
+            </div>
           </v-card-title>
 
           <v-card-subtitle>
@@ -42,6 +59,29 @@
               </v-chip>
             </div>
           </v-card-text>
+
+          <v-divider />
+
+          <v-card-actions>
+            <v-chip>
+              {{ el.billed_amount
+                ? Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(el.billed_amount)
+                : __('Free') }}
+            </v-chip>
+            <v-spacer />
+            <v-btn
+              color="primary"
+            >
+              Lihat detail
+            </v-btn>
+            <v-btn
+              v-if="el.billed_amount"
+              color="primary"
+              variant="tonal"
+            >
+              Bayar
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>

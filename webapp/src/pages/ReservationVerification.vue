@@ -63,43 +63,45 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="el in list"
-              :key="el.id"
-            >
-              <td>{{ el.reservable.name }}</td>
-              <td>{{ el.description_short }}</td>
-              <td class="flex items-center gap-2">
-                <span>
-                  {{ el.start.toLocaleString() }}
-                </span>
-                <v-chip density="compact">
-                  {{ (el.long || 60) / 60 }} jam
-                </v-chip>
-              </td>
-              <td>
-                <div class="flex justify-end items-center gap-2.5">
-                  <v-btn
-                    prepend-icon="mdi-check"
-                    variant="flat"
-                    color="secondary"
-                    size="small"
-                    @click="onAcceptReservationClick(el.id)"
-                  >
-                    Terima
-                  </v-btn>
-                  <v-btn
-                    prepend-icon="mdi-close"
-                    variant="flat"
-                    color="error"
-                    size="small"
-                    @click="onRejectReservationClick(el.id)"
-                  >
-                    Tolak
-                  </v-btn>
-                </div>
-              </td>
-            </tr>
+            <v-slide-x-transition group>
+              <tr
+                v-for="el in list"
+                :key="el.id"
+              >
+                <td>{{ el.reservable.name }}</td>
+                <td>{{ el.description_short }}</td>
+                <td class="flex items-center gap-2">
+                  <span>
+                    {{ el.start.toLocaleString() }}
+                  </span>
+                  <v-chip density="compact">
+                    {{ (el.long || 60) / 60 }} jam
+                  </v-chip>
+                </td>
+                <td>
+                  <div class="flex justify-end items-center gap-2.5">
+                    <v-btn
+                      prepend-icon="mdi-check"
+                      variant="flat"
+                      color="secondary"
+                      size="small"
+                      @click="onAcceptReservationClick(el.id)"
+                    >
+                      Terima
+                    </v-btn>
+                    <v-btn
+                      prepend-icon="mdi-close"
+                      variant="flat"
+                      color="error"
+                      size="small"
+                      @click="onRejectReservationClick(el.id)"
+                    >
+                      Tolak
+                    </v-btn>
+                  </div>
+                </td>
+              </tr>
+            </v-slide-x-transition>
           </tbody>
         </v-table>
       </v-col>
@@ -115,15 +117,27 @@ import { catchErrorAsNotification, notify } from '../utils/ui';
 
 type KeyType = number;
 
-const { state: list } = useAsyncState(reservations.all(), []);
+const { state: list } = useAsyncState(reservations.all(), [], { shallow: false });
 
 const onAcceptReservationClick = (id: KeyType) => catchErrorAsNotification(async () => {
-  admin.verifyReservation(id, true);
+  await admin.verifyReservation(id, true);
+
+  const idx = list.value.findIndex((el) => el.id === id);
+  if (idx !== -1) {
+    list.value.splice(idx, 1);
+  }
+
   notify.success(__('Reservation accepted'));
 });
 
 const onRejectReservationClick = (id: KeyType) => catchErrorAsNotification(async () => {
-  admin.verifyReservation(id, false);
+  await admin.verifyReservation(id, false);
+
+  const idx = list.value.findIndex((el) => el.id === id);
+  if (idx !== -1) {
+    list.value.splice(idx, 1);
+  }
+
   notify.success(__('Reservation rejected'));
 });
 </script>

@@ -8,15 +8,15 @@ import { fromRaw as userFromRaw, fromRawDetails as userFromRawDetails } from './
 const BASE_ENDPOINT = '/admin';
 
 enum Endpoint {
-  UserEntity = '/users/{user}',
-  MarkVerified = '/users/{user}/mark-verified',
-  MarkInternal = '/users/{user}/mark-internal',
-  AcceptReservation = '/reservations/{reservation}/accept',
-  RejectReservation = '/reservations/{reservation}/reject',
+  UserEntity = '/users/{param}',
+  MarkVerified = '/users/{param}/mark-verified',
+  MarkInternal = '/users/{param}/mark-internal',
+  AcceptReservation = '/reservations/{param}/accept',
+  RejectReservation = '/reservations/{param}/reject',
 }
 
 const endpoint = (path: `${Endpoint}${string}`, param?: User['id']) => {
-  const pathWithParam = path.replace('{user}', param === undefined ? '' : param.toString());
+  const pathWithParam = path.replace('{param}', param === undefined ? '' : param.toString());
   const fullPath = `${BASE_ENDPOINT}${pathWithParam}`;
   return fullPath.endsWith('/') ? fullPath.slice(0, -1) : fullPath;
 };

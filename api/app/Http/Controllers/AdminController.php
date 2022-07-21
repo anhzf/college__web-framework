@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enums\ReservationStatus;
+use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -51,5 +53,17 @@ class AdminController extends APIController
     $user->is_internal_verified_by_id = auth()->id();
     $user->save();
     return $this->send($user->getKey());
+  }
+
+  public function acceptReservation(Reservation $reservation)
+  {
+    $reservation->setStatus(ReservationStatus::Approved);
+    return $this->send($reservation->getKey());
+  }
+
+  public function rejectReservation(Reservation $reservation)
+  {
+    $reservation->setStatus(ReservationStatus::Rejected);
+    return $this->send($reservation->getKey());
   }
 }

@@ -91,4 +91,12 @@ class Reservation extends Model
   {
     return $query->where('status', ReservationStatus::Pending);
   }
+
+  public function setStatus(ReservationStatus $status)
+  {
+    $this->status = $status;
+    $this->approval_assigned_at = now();
+    $this->approvalAssignee()->associate(auth()->user());
+    $this->save();
+  }
 }
