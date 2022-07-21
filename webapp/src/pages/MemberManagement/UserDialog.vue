@@ -24,7 +24,8 @@
                 <v-text-field
                   :model-value="userData.email"
                   :label="__('Email')"
-                  :hint="(isVerified || undefined) && (userData?.verificator ? `Diverifikasi oleh ${userData?.verificator?.name}` : 'Diverifikasi melalui email konfirmasi')"
+                  :hint="(isVerified || undefined) && (userData?.verificator
+                    ? `Diverifikasi oleh ${userData?.verificator?.name}` : 'Diverifikasi melalui email konfirmasi')"
                   variant="outlined"
                   readonly
                   persistent-hint
@@ -52,7 +53,8 @@
                 <v-text-field
                   :model-value="userData.internal_id || '-'"
                   :label="__('Organization ID')"
-                  :hint="(isInternalMember && userData?.internal_member_verificator && `Diverifikasi oleh ${userData.internal_member_verificator.name}`) || undefined"
+                  :hint="(isInternalMember && userData?.internal_member_verificator
+                    && `Diverifikasi oleh ${userData.internal_member_verificator.name}`) || undefined"
                   variant="outlined"
                   readonly
                   persistent-hint

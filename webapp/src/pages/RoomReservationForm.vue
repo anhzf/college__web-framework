@@ -143,7 +143,7 @@ const onSubmit = () => catchErrorAsNotification(async () => {
 
     await roomReservations.create(payload);
     notify.success('Pemesanan ruangan berhasil!');
-    router.push({ name: 'RoomReservation' });
+    router.push({ name: 'Home' });
   }
 
   notify.error('Form tidak valid!');

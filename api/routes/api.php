@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,13 @@ Route::prefix('/user')->middleware('auth:sanctum')->group(function () {
   Route::get('/verify/{id}/{hash}', [AuthController::class, 'verifyVerification'])
     ->middleware('signed')
     ->name('verification.verify');
+});
+
+Route::prefix('/admin')->middleware('auth:sanctum')->group(function () {
+  Route::get('/users', [AdminController::class, 'listUsers']);
+  Route::get('/users/{user}', [AdminController::class, 'getUser']);
+  Route::post('/users/{user}/mark-verified', [AdminController::class, 'markUserVerified']);
+  Route::post('/users/{user}/mark-internal', [AdminController::class, 'markInternalUser']);
 });
 
 Route::apiResources([
