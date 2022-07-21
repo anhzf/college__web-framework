@@ -86,7 +86,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="room in normalizedList"
+              v-for="room in list"
               :key="room.id"
             >
               <td>{{ room.roomName }}</td>
@@ -123,9 +123,9 @@
 
 <script lang="ts" setup>
 import { useAsyncState } from '@vueuse/core';
-import { computed } from 'vue';
 import { roomReservations } from '../api';
 import QueryChip from '../components/QueryChip.vue';
+import { RoomReservation } from '../types/models';
 import { isOnProgress } from '../utils/datetime';
 
 interface NormalizedRoomReservation {
@@ -137,20 +137,21 @@ interface NormalizedRoomReservation {
   reservedTime: number;
 }
 
+const normalizeRoomReservationSchema = (data: RoomReservation): NormalizedRoomReservation => ({
+  id: data.id.toString(),
+  roomName: data.reservable.name,
+  eventDescription: data.description_short,
+  responsible: data.user.name,
+  reservedDate: new Date(data.start),
+  reservedTime: data.long === null ? 1 : data.long / 60,
+});
+
 const getRoomReservations = async () => {
   const { data } = await roomReservations.all();
-  return data;
+  return data.map(normalizeRoomReservationSchema);
 };
 
 const { state: list } = useAsyncState(getRoomReservations(), []);
-const normalizedList = computed(() => list.value.map((el) => ({
-  id: el.id.toString(),
-  roomName: el.reservable.name,
-  eventDescription: el.description_short,
-  responsible: el.user.name,
-  reservedDate: new Date(el.start),
-  reservedTime: el.long === null ? 1 : el.long / 60,
-}) as NormalizedRoomReservation));
 </script>
 
 <style lang="sass">

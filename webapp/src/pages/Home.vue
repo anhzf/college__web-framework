@@ -76,7 +76,7 @@ const auth = useAuthStore();
 const getMyReservations = useMemoize(async () => {
   try {
     const { data } = await users.getMyReservations();
-    return data.concat(...data, ...data);
+    return data;
   } catch (err) {
     errorAsNotification(err as Error);
     return [];

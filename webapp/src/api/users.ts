@@ -11,13 +11,13 @@ enum Endpoint {
   CurrentUser = '/user',
   MyReservations = '/user/reservations',
   SendEmailVerification = '/user/verify',
+  Entity = '/users',
 }
 
 const fromRaw = (data: UserRaw): User => data;
 
 const fromRawDetails = (data: UserDetailsRaw): UserDetails => ({
-  ...data,
-  ...fromRaw(data),
+  ...fromRaw(data) as UserDetails,
   email_verified_at: data.email_verified_at ? new Date(data.email_verified_at) : null,
   is_internal: data.is_internal === 1,
   is_internal_verified_at: data.is_internal_verified_at ? new Date(data.is_internal_verified_at) : null,

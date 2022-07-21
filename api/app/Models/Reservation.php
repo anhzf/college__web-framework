@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\ReservationStatus;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,6 +35,18 @@ class Reservation extends Model
   protected $guarded = [];
 
   /**
+   * The accessors to append to the model's array form.
+   *
+   * @var array
+   */
+  protected $appends = ['billed_amount'];
+
+  public function billedAmount(): Attribute
+  {
+    return Attribute::get(fn () => $this->countBill());
+  }
+
+  /**
    * Get the parent reservable model (room or facility).
    */
   public function reservable()
@@ -58,6 +71,10 @@ class Reservation extends Model
 
   public function countBill()
   {
+    if ($this->user->is_internal || ($this->user->internal_id && $this->user->is_internal_verified_at)) {
+      return null;
+    }
+
     /** @var ReservablePrice */
     $price = $this->reservable->price();
     $start = $price->price_start;

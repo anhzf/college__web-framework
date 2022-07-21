@@ -104,7 +104,7 @@
 
         <v-list nav>
           <v-list-item
-            prepend-icon="mdi-circle"
+            prepend-icon="mdi-logout"
             title="Keluar"
             @click="onLogoutClick"
           />
@@ -198,12 +198,12 @@ import type { AnyTypedFn, ComponentProps } from './types/common';
 
 const baseNavItems: ComponentProps<typeof VListItem>[] = [
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-view-dashboard',
     title: 'Dasbor',
     to: { name: 'Home' },
   },
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-room-service',
     title: 'Ruangan',
     subtitle: 'Jadwal dan Peminjaman',
     to: { name: 'RoomReservation' },
@@ -218,24 +218,24 @@ const baseNavItems: ComponentProps<typeof VListItem>[] = [
 
 const adminNavItems: ComponentProps<typeof VListItem>[] = [
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-receipt-text-check',
     title: 'Verifikasi Reservasi',
     to: { name: 'ReservationVerification' },
   },
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-store-cog',
     title: 'Ruangan',
     subtitle: 'Kelola Ruangan',
     to: { name: 'RoomManagement' },
   },
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-wrench-cog',
     title: 'Fasilitas',
     subtitle: 'Kelola Fasilitas',
     to: { name: 'FacilityManagement' },
   },
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-account-multiple',
     title: 'Member',
     subtitle: 'Kelola Member',
     to: { name: 'MemberManagement' },
@@ -244,7 +244,7 @@ const adminNavItems: ComponentProps<typeof VListItem>[] = [
 
 const userNavItems: ComponentProps<typeof VListItem>[] = [
   {
-    prependIcon: 'mdi-circle',
+    prependIcon: 'mdi-account-cog',
     title: 'Pengaturan',
     to: { name: 'Settings' },
   },

@@ -79,6 +79,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     return $this->role === UserRole::Admin;
   }
 
+  public function isVerified(): Attribute
+  {
+    return Attribute::get(fn () => $this->email_verified_at !== null);
+  }
+
   public function activities()
   {
     return $this->hasMany(Activity::class);
@@ -97,6 +102,26 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
   public function addedFacilities()
   {
     return $this->hasMany(Facility::class, 'added_by_id');
+  }
+
+  public function verificator()
+  {
+    return $this->belongsTo(self::class, 'verified_by_id');
+  }
+
+  public function internalMemberVerificator()
+  {
+    return $this->belongsTo(self::class, 'is_internal_verified_by_id');
+  }
+
+  public function verifying()
+  {
+    return $this->hasMany(self::class, 'verified_by_id');
+  }
+
+  public function verifyingInternalMember()
+  {
+    return $this->hasMany(self::class, 'is_internal_verified_by_id');
   }
 
   public function registerMediaConversions(Media $media = null): void

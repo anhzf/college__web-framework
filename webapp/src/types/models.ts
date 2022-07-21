@@ -105,6 +105,7 @@ export interface Reservation<TReservable extends Reservable> {
   status: ReservationStatus;
   reservable: TReservable;
   user: User;
+  billed_amount: number | null;
 }
 
 export interface ReservationRaw<TReservable extends ReservableRaw> extends Omit<Reservation<TReservable>, 'start'> {

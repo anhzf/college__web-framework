@@ -14,7 +14,7 @@ import { removeSearchParams } from '../utils/transform';
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<UserDetails | null>();
   const isVerified = computed(() => user.value?.email_verified_at);
-  const isInternal = computed(() => user.value?.is_internal);
+  const isInternal = computed(() => user.value?.is_internal || (user.value?.internal_id && user.value.is_internal_verified_at));
   const isMember = computed(() => isVerified.value && ['member', 'admin'].includes(user.value?.role || ''));
   const isAdmin = computed(() => isVerified.value && (user.value?.role === 'admin'));
   const refresh = async () => {

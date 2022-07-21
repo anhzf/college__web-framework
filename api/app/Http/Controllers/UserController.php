@@ -16,7 +16,8 @@ class UserController extends APIController
    */
   public function index()
   {
-    //
+    $columns = ['id', 'name'];
+    return $this->send(User::all($columns));
   }
 
   /**
@@ -48,7 +49,6 @@ class UserController extends APIController
    */
   public function show(User $user)
   {
-    //
   }
 
   /**
@@ -88,7 +88,7 @@ class UserController extends APIController
   public function myReservations()
   {
     $columns = ['id', 'reservable_id', 'reservable_type', 'start', 'long', 'description_short', 'status', 'user_id'];
-    $hidden = ['reservable_id', 'reservable_type', 'user_id', 'approval_assigned_by_id', 'approval_assigned_at'];
+    $hidden = ['reservable_id', 'reservable_type', 'user', 'user_id', 'approval_assigned_by_id', 'approval_assigned_at'];
     $relations = ['reservable:id,name', 'approvalAssignee:id,name'];
 
     /** @var User */

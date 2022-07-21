@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.1",
-    "@mdi/font": "5.9.55",
     "@vueuse/core": "^8.7.3",
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
@@ -21,10 +20,11 @@
     "vite": "^2.9.13",
     "vue": "^3.2.25",
     "vue-router": "^4.0.16",
-    "vuetify": "^3.0.0-beta.0",
+    "vuetify": "^3.0.0-beta.5",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@mdi/font": "^7.0.96",
     "@types/webfontloader": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
