@@ -38,6 +38,8 @@ Route::prefix('/admin')->middleware('auth:sanctum')->group(function () {
   Route::get('/users/{user}', [AdminController::class, 'getUser']);
   Route::post('/users/{user}/mark-verified', [AdminController::class, 'markUserVerified']);
   Route::post('/users/{user}/mark-internal', [AdminController::class, 'markInternalUser']);
+  Route::post('/reservations/{reservation}/accept', [AdminController::class, 'acceptReservation']);
+  Route::post('/reservations/{reservation}/reject', [AdminController::class, 'rejectReservation']);
 });
 
 Route::apiResources([
